@@ -14,6 +14,7 @@ extension Target.Dependency {
     static var standards: Self { .product(name: "Standards", package: "swift-standards") }
     static var iso8601: Self { .product(name: "ISO 8601", package: "swift-iso-8601") }
     static var rfc5322: Self { .product(name: "RFC 5322", package: "swift-rfc-5322") }
+    static var rfc3339: Self { .product(name: "RFC 3339", package: "swift-rfc-3339") }
     static var standardsTestSupport: Self { .product(name: "StandardsTestSupport", package: "swift-standards") }
 }
 
@@ -33,6 +34,7 @@ let package = Package(
         .package(url: "https://github.com/swift-standards/swift-standards", from: "0.21.0"),
         .package(url: "https://github.com/swift-standards/swift-iso-8601", from: "0.2.2"),
         .package(url: "https://github.com/swift-standards/swift-rfc-5322", from: "0.7.1"),
+        .package(url: "https://github.com/swift-standards/swift-rfc-3339", from: "0.1.0"),
     ],
     targets: [
         .target(
@@ -47,7 +49,8 @@ let package = Package(
                 .time,
                 .standards,
                 .iso8601,
-                .rfc5322
+                .rfc5322,
+                .rfc3339
             ]
         ),
         .testTarget(
