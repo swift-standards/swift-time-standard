@@ -15,3 +15,8 @@ extension Time.Clock.Continuous {
     /// `Continuous.Instant` with `Suspending.Instant` is a compile-time error.
     public typealias Instant = Time.Clock.Instant<Time.Clock.Continuous>
 }
+
+extension Time.Clock.Continuous.Instant {
+    /// The current instant according to the continuous clock.
+    public static var now: Self { Time.Clock.Continuous().now }
+}
