@@ -31,9 +31,9 @@ let package = Package(
         .library(name: .timeStandard, targets: [.timeStandard])
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-standards/swift-standards", from: "0.21.0"),
+        .package(url: "https://github.com/swift-standards/swift-standards", from: "0.24.2"),
         .package(url: "https://github.com/swift-standards/swift-iso-8601", from: "0.2.2"),
-        .package(url: "https://github.com/swift-standards/swift-rfc-5322", from: "0.7.1"),
+        .package(url: "https://github.com/swift-standards/swift-rfc-5322", from: "0.7.4"),
         .package(url: "https://github.com/swift-standards/swift-rfc-3339", from: "0.1.0"),
     ],
     targets: [
@@ -57,6 +57,13 @@ let package = Package(
             name: .timeStandard.tests,
             dependencies: [
                 .timeStandard,
+                .standardsTestSupport
+            ]
+        ),
+        .testTarget(
+            name: .clocks.tests,
+            dependencies: [
+                .clocks,
                 .standardsTestSupport
             ]
         )

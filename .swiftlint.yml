@@ -62,6 +62,20 @@ identifier_name:
     - URL
     - to
     - db
+    - a
+    - b
+    - i
+
+# Nesting settings - allow Time.Clock.X.Instant pattern
+nesting:
+  type_level:
+    warning: 3
+    error: 4
+
+# Large tuple settings - allow clock suspension tracking
+large_tuple:
+  warning: 4
+  error: 5
 
 # Type name settings - allow RFC_XXXX pattern
 type_name:
