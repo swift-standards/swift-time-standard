@@ -4,7 +4,7 @@
 // Tests for ISO 8601 Duration arithmetic
 
 import ISO_8601
-import StandardTime
+import Time_Primitives
 import Testing
 
 @testable import Time_Standard

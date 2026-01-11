@@ -6,7 +6,7 @@
 import ISO_8601
 import RFC_3339
 import RFC_5322
-import StandardTime
+import Time_Primitives
 import Testing
 
 @testable import Time_Standard

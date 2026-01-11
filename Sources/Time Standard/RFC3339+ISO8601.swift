@@ -5,7 +5,7 @@
 
 public import ISO_8601
 public import RFC_3339
-import StandardTime
+import Time_Primitives
 
 // MARK: - RFC 3339 → ISO 8601
 

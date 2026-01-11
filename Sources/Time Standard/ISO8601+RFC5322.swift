@@ -5,7 +5,7 @@
 
 import ISO_8601
 import RFC_5322
-import StandardTime
+import Time_Primitives
 
 // MARK: - ISO 8601 ↔ RFC 5322 Conversions
 

@@ -5,7 +5,7 @@
 
 public import RFC_3339
 public import RFC_5322
-import StandardTime
+import Time_Primitives
 
 // MARK: - RFC 3339 → RFC 5322
 

@@ -8,12 +8,12 @@ extension String {
 
 extension Target.Dependency {
     static var timeStandard: Self { .target(name: .timeStandard) }
-    static var time: Self { .product(name: "StandardTime", package: "swift-standards") }
-    static var standards: Self { .product(name: "Standards", package: "swift-standards") }
+    static var time: Self { .product(name: "Time Primitives", package: "swift-time-primitives") }
+    static var standards: Self { .product(name: "Standard Library Extensions", package: "swift-standard-library-extensions") }
     static var iso8601: Self { .product(name: "ISO 8601", package: "swift-iso-8601") }
     static var rfc5322: Self { .product(name: "RFC 5322", package: "swift-rfc-5322") }
     static var rfc3339: Self { .product(name: "RFC 3339", package: "swift-rfc-3339") }
-    static var standardsTestSupport: Self { .product(name: "StandardsTestSupport", package: "swift-standards") }
+    static var standardsTestSupport: Self { .product(name: "Test Primitives", package: "swift-test-primitives") }
 }
 
 let package = Package(
@@ -28,10 +28,12 @@ let package = Package(
         .library(name: .timeStandard, targets: [.timeStandard])
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-standards/swift-standards", from: "0.24.2"),
-        .package(url: "https://github.com/swift-standards/swift-iso-8601", from: "0.2.2"),
-        .package(url: "https://github.com/swift-standards/swift-rfc-5322", from: "0.7.4"),
-        .package(url: "https://github.com/swift-standards/swift-rfc-3339", from: "0.1.0"),
+        .package(path: "../../swift-primitives/swift-standard-library-extensions"),
+        .package(path: "../../swift-primitives/swift-time-primitives"),
+        .package(path: "../../swift-primitives/swift-test-primitives"),
+        .package(path: "../swift-iso-8601"),
+        .package(path: "../swift-rfc-5322"),
+        .package(path: "../swift-rfc-3339"),
     ],
     targets: [
         .target(
