@@ -4,7 +4,7 @@
 // DateTime arithmetic with ISO 8601 Duration
 
 public import ISO_8601
-@_spi(Internal) import StandardTime
+@_spi(Internal) import Time_Primitives
 
 extension ISO_8601.DateTime {
     /// Add a duration to this date-time.
