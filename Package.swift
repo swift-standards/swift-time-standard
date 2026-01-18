@@ -25,19 +25,18 @@ let package = Package(
         .watchOS(.v26)
     ],
     products: [
-        .library(name: .timeStandard, targets: [.timeStandard])
+        .library(name: "Time Standard", targets: ["Time Standard"])
     ],
     dependencies: [
         .package(path: "../../swift-primitives/swift-standard-library-extensions"),
         .package(path: "../../swift-primitives/swift-time-primitives"),
-        .package(path: "../../swift-primitives/swift-test-primitives"),
         .package(path: "../swift-iso-8601"),
         .package(path: "../swift-rfc-5322"),
-        .package(path: "../swift-rfc-3339"),
+        .package(path: "../swift-rfc-3339")
     ],
     targets: [
         .target(
-            name: .timeStandard,
+            name: "Time Standard",
             dependencies: [
                 .time,
                 .standards,
@@ -45,14 +44,7 @@ let package = Package(
                 .rfc5322,
                 .rfc3339
             ]
-        ),
-        .testTarget(
-            name: .timeStandard.tests,
-            dependencies: [
-                .timeStandard,
-                .standardsTestSupport
-            ]
-        ),
+        )
     ],
     swiftLanguageModes: [.v6]
 )
