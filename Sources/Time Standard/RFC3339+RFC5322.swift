@@ -22,7 +22,7 @@ extension RFC_5322.DateTime {
         // RFC 5322 doesn't support sub-second precision, so we use only whole seconds
         self.init(
             time: Time(secondsSinceEpoch: rfc3339.time.secondsSinceEpoch),
-            timezoneOffset: Time.TimezoneOffset(seconds: rfc3339.offset.seconds)
+            timezoneOffset: Time.Timezone.Offset(seconds: rfc3339.offset.seconds)
         )
     }
 }

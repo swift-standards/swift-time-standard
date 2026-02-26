@@ -19,7 +19,7 @@ extension ISO_8601.DateTime {
     public init(_ rfc3339: RFC_3339.DateTime) {
         self.init(
             time: rfc3339.time,
-            timezoneOffset: Time.TimezoneOffset(seconds: rfc3339.offset.seconds)
+            timezoneOffset: Time.Timezone.Offset(seconds: rfc3339.offset.seconds)
         )
     }
 }

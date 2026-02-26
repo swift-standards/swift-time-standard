@@ -44,7 +44,13 @@ let package = Package(
                 .rfc5322,
                 .rfc3339
             ]
-        )
+        ),
+        .testTarget(
+            name: "Time Standard Tests",
+            dependencies: [
+                "Time Standard",
+            ]
+        ),
     ],
     swiftLanguageModes: [.v6]
 )
@@ -60,6 +66,7 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
         .enableUpcomingFeature("MemberImportVisibility"),
+        .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
         .enableExperimentalFeature("Lifetimes"),
         .enableExperimentalFeature("SuppressedAssociatedTypes"),
         .enableExperimentalFeature("SuppressedAssociatedTypesWithDefaults"),
