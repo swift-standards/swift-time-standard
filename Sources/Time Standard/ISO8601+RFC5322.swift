@@ -18,9 +18,9 @@ extension ISO_8601.DateTime {
     /// Note: RFC 5322 has no sub-second precision, so nanoseconds will be 0.
     ///
     /// - Parameter rfc5322: RFC 5322 DateTime
-    /// - Throws: If conversion fails
-    public init(_ rfc5322: RFC_5322.DateTime) throws {
-        try self.init(
+    public init(_ rfc5322: RFC_5322.DateTime) {
+        // Safe: nanoseconds = 0 is always in range, so the failable init cannot throw.
+        try! self.init(
             secondsSinceEpoch: rfc5322.secondsSinceEpoch,
             nanoseconds: 0,  // RFC 5322 has no sub-second precision
             timezoneOffsetSeconds: rfc5322.timezoneOffsetSeconds

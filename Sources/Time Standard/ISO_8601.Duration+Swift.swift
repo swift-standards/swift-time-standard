@@ -41,7 +41,7 @@ extension ISO_8601.Duration {
     /// Days, months, and years will be zero.
     ///
     /// - Parameter duration: The Swift Duration to convert
-    public init(_ duration: Swift.Duration) throws {
+    public init(_ duration: Swift.Duration) throws(ISO_8601.Date.Error) {
         let (seconds, attoseconds) = duration.components
         let nanoseconds = Int(attoseconds / 1_000_000_000)
 
