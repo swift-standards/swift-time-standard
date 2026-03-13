@@ -30,9 +30,9 @@ let package = Package(
     dependencies: [
         .package(path: "../../swift-primitives/swift-standard-library-extensions"),
         .package(path: "../../swift-primitives/swift-time-primitives"),
-        .package(path: "../swift-iso-8601"),
-        .package(path: "../swift-rfc-5322"),
-        .package(path: "../swift-rfc-3339")
+        .package(path: "../../swift-iso/swift-iso-8601"),
+        .package(path: "../../swift-ietf/swift-rfc-5322"),
+        .package(path: "../../swift-ietf/swift-rfc-3339")
     ],
     targets: [
         .target(
