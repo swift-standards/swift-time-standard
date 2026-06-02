@@ -28,11 +28,11 @@ let package = Package(
         .library(name: "Time Standard", targets: ["Time Standard"])
     ],
     dependencies: [
-        .package(path: "../../swift-primitives/swift-standard-library-extensions"),
-        .package(path: "../../swift-primitives/swift-time-primitives"),
-        .package(path: "../../swift-iso/swift-iso-8601"),
-        .package(path: "../../swift-ietf/swift-rfc-5322"),
-        .package(path: "../../swift-ietf/swift-rfc-3339")
+        .package(url: "https://github.com/swift-primitives/swift-standard-library-extensions.git", branch: "main"),
+        .package(url: "https://github.com/swift-primitives/swift-time-primitives.git", branch: "main"),
+        .package(url: "https://github.com/swift-iso/swift-iso-8601.git", branch: "main"),
+        .package(url: "https://github.com/swift-ietf/swift-rfc-5322.git", branch: "main"),
+        .package(url: "https://github.com/swift-ietf/swift-rfc-3339.git", branch: "main")
     ],
     targets: [
         .target(
