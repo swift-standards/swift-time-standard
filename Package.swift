@@ -13,7 +13,6 @@ extension Target.Dependency {
     static var iso8601: Self { .product(name: "ISO 8601", package: "swift-iso-8601") }
     static var rfc5322: Self { .product(name: "RFC 5322", package: "swift-rfc-5322") }
     static var rfc3339: Self { .product(name: "RFC 3339", package: "swift-rfc-3339") }
-    static var standardsTestSupport: Self { .product(name: "Test Primitives", package: "swift-test-primitives") }
 }
 
 let package = Package(
