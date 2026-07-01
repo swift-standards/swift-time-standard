@@ -52,7 +52,7 @@ extension ISO_8601.DateTime {
 
         // Create base time with adjusted year/month/day
         let adjustedTime = Time(
-            __unchecked: (),
+            _unchecked: (),
             year: year,
             month: month,
             day: day,
@@ -80,7 +80,7 @@ extension ISO_8601.DateTime {
         }
 
         let finalTime = Time(
-            __unchecked: (),
+            _unchecked: (),
             secondsSinceEpoch: newSeconds + secondsAdjustment,
             nanoseconds: newNanoseconds
         )
@@ -119,14 +119,14 @@ extension ISO_8601.DateTime {
                 let adjustedSeconds = result.time.secondsSinceEpoch - 1
                 let adjustedNanos = newNanos + 1_000_000_000
                 let adjustedTime = Time(
-                    __unchecked: (),
+                    _unchecked: (),
                     secondsSinceEpoch: adjustedSeconds,
                     nanoseconds: adjustedNanos
                 )
                 result = ISO_8601.DateTime(time: adjustedTime, timezoneOffset: timezoneOffset)
             } else {
                 let adjustedTime = Time(
-                    __unchecked: (),
+                    _unchecked: (),
                     secondsSinceEpoch: result.time.secondsSinceEpoch,
                     nanoseconds: newNanos
                 )

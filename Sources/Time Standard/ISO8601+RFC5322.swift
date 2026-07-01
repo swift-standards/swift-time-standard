@@ -39,8 +39,8 @@ extension RFC_5322.DateTime {
     /// - Parameter iso8601: ISO 8601 DateTime
     public init(_ iso8601: ISO_8601.DateTime) {
         self.init(
-            secondsSinceEpoch: iso8601.secondsSinceEpoch,
-            timezoneOffsetSeconds: iso8601.timezoneOffsetSeconds
+            secondsSinceEpoch: iso8601.epoch.seconds,
+            timezoneOffsetSeconds: iso8601.timezone.offsetSeconds
         )
     }
 }

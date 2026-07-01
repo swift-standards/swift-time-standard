@@ -35,11 +35,11 @@ extension RFC_3339.DateTime {
     /// - Parameter iso8601: ISO 8601 DateTime
     public init(_ iso8601: ISO_8601.DateTime) {
         let offset: RFC_3339.Offset
-        if iso8601.timezoneOffsetSeconds == 0 {
+        if iso8601.timezone.offsetSeconds == 0 {
             offset = .utc
         } else {
             // RFC 3339 offset is validated, but ISO 8601 uses the same range
-            offset = (try? RFC_3339.Offset(seconds: iso8601.timezoneOffsetSeconds)) ?? .utc
+            offset = (try? RFC_3339.Offset(seconds: iso8601.timezone.offsetSeconds)) ?? .utc
         }
 
         self.init(time: iso8601.time, offset: offset)
