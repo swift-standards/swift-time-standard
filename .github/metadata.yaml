@@ -1,6 +1,6 @@
 # .github/metadata.yaml
 # Triaged by AI-assisted bulk pass (2026-04-29).
-description: "Time and date meta-package combining ISO 8601, RFC 3339, and RFC 9557 in Swift."
+description: "Unified Time type composing ISO 8601, RFC 3339, and RFC 5322 for Swift."
 topics:
   - standards
   - time
