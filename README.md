@@ -159,12 +159,12 @@ let decoded = try decoder.decode(Time.self, from: data)
 
 Currently supports:
 
-- **[ISO 8601:2019](https://github.com/swift-standards/swift-iso-8601)** - International date-time standard
+- **[ISO 8601:2019](https://github.com/swift-iso/swift-iso-8601)** - International date-time standard
   - Extended and basic formats
   - Nanosecond precision
   - Timezone offsets
 
-- **[RFC 5322](https://github.com/swift-standards/swift-rfc-5322)** - Internet Message Format
+- **[RFC 5322](https://github.com/swift-ietf/swift-rfc-5322)** - Internet Message Format
   - Email date headers
   - Timezone offsets
   - No sub-second precision
@@ -250,8 +250,8 @@ This ensures consistency across format conversions.
 ## Dependencies
 
 - [swift-standards](https://github.com/swift-standards/swift-standards) - Foundation utilities and Time
-- [swift-iso-8601](https://github.com/swift-standards/swift-iso-8601) - ISO 8601 implementation
-- [swift-rfc-5322](https://github.com/swift-standards/swift-rfc-5322) - RFC 5322 implementation
+- [swift-iso-8601](https://github.com/swift-iso/swift-iso-8601) - ISO 8601 implementation
+- [swift-rfc-5322](https://github.com/swift-ietf/swift-rfc-5322) - RFC 5322 implementation
 
 ## Related Packages
 
