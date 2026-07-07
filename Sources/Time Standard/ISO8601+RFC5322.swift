@@ -20,6 +20,7 @@ extension ISO_8601.DateTime {
     /// - Parameter rfc5322: RFC 5322 DateTime
     public init(_ rfc5322: RFC_5322.DateTime) {
         // Safe: nanoseconds = 0 is always in range, so the failable init cannot throw.
+        // swiftlint:disable:next force_try
         try! self.init(
             secondsSinceEpoch: rfc5322.secondsSinceEpoch,
             nanoseconds: 0,  // RFC 5322 has no sub-second precision

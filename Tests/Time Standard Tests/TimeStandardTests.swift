@@ -5,8 +5,8 @@
 
 import ISO_8601
 import RFC_5322
-import Time_Primitives
 import Testing
+import Time_Primitives
 
 @testable import Time_Standard
 
@@ -24,9 +24,9 @@ struct TimeStandardCrossFormatConversionTests {
 
         let iso = try ISO_8601.DateTime(rfc)
 
-        #expect(iso.secondsSinceEpoch == 1_705_324_245)
+        #expect(iso.epoch.seconds == 1_705_324_245)
         #expect(iso.nanoseconds == 0)  // RFC 5322 has no sub-second precision
-        #expect(iso.timezoneOffsetSeconds == 0)
+        #expect(iso.timezone.offsetSeconds == 0)
     }
 
     @Test
@@ -38,8 +38,8 @@ struct TimeStandardCrossFormatConversionTests {
 
         let iso = try ISO_8601.DateTime(rfc)
 
-        #expect(iso.secondsSinceEpoch == 1_705_324_245)
-        #expect(iso.timezoneOffsetSeconds == 3600)  // Timezone preserved
+        #expect(iso.epoch.seconds == 1_705_324_245)
+        #expect(iso.timezone.offsetSeconds == 3600)  // Timezone preserved
     }
 
     @Test
@@ -82,8 +82,8 @@ struct TimeStandardCrossFormatConversionTests {
         let rfc = RFC_5322.DateTime(original)
         let restored = try ISO_8601.DateTime(rfc)
 
-        #expect(restored.secondsSinceEpoch == original.secondsSinceEpoch)
-        #expect(restored.timezoneOffsetSeconds == original.timezoneOffsetSeconds)
+        #expect(restored.epoch.seconds == original.epoch.seconds)
+        #expect(restored.timezone.offsetSeconds == original.timezone.offsetSeconds)
         #expect(restored.nanoseconds == 0)  // Sub-second precision lost
     }
 
@@ -137,7 +137,7 @@ struct TimeStandardCrossFormatConversionTests {
             )
 
             let iso = try ISO_8601.DateTime(rfc)
-            #expect(iso.timezoneOffsetSeconds == offset)
+            #expect(iso.timezone.offsetSeconds == offset)
 
             let rfcRestored = RFC_5322.DateTime(iso)
             #expect(rfcRestored.timezoneOffsetSeconds == offset)
@@ -164,7 +164,7 @@ struct TimeStandardCrossFormatConversionTests {
             #expect(rfc.secondsSinceEpoch == epoch)
 
             let isoRestored = try ISO_8601.DateTime(rfc)
-            #expect(isoRestored.secondsSinceEpoch == epoch)
+            #expect(isoRestored.epoch.seconds == epoch)
         }
     }
 }

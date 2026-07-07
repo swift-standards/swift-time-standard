@@ -6,8 +6,8 @@
 import ISO_8601
 import RFC_3339
 import RFC_5322
-import Time_Primitives
 import Testing
+import Time_Primitives
 
 @testable import Time_Standard
 
@@ -34,7 +34,7 @@ struct RFC3339ConversionTests {
         let iso8601 = ISO_8601.DateTime(rfc3339)
 
         #expect(iso8601.time == time)
-        #expect(iso8601.timezoneOffsetSeconds == 0)
+        #expect(iso8601.timezone.offsetSeconds == 0)
     }
 
     @Test
@@ -45,7 +45,7 @@ struct RFC3339ConversionTests {
 
         let iso8601 = ISO_8601.DateTime(rfc3339)
 
-        #expect(iso8601.timezoneOffsetSeconds == 19800)
+        #expect(iso8601.timezone.offsetSeconds == 19800)
     }
 
     @Test
@@ -204,7 +204,7 @@ struct RFC3339ConversionTests {
 
         // Unknown offset is still 0 seconds from UTC
         let iso8601 = ISO_8601.DateTime(rfc3339)
-        #expect(iso8601.timezoneOffsetSeconds == 0)
+        #expect(iso8601.timezone.offsetSeconds == 0)
 
         let rfc5322 = RFC_5322.DateTime(rfc3339)
         #expect(rfc5322.timezoneOffsetSeconds == 0)
