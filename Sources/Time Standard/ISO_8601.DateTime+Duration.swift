@@ -95,7 +95,7 @@ extension ISO_8601.DateTime {
     public func subtracting(_ duration: ISO_8601.Duration) -> ISO_8601.DateTime {
         // Create negated duration (negating valid components cannot fail)
         let negated: ISO_8601.Duration
-        do {
+        do throws(ISO_8601.Date.Error) {
             negated = try ISO_8601.Duration(
                 years: -duration.years,
                 months: -duration.months,
