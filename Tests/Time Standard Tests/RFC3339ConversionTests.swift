@@ -17,7 +17,7 @@ struct RFC3339ConversionTests {
     // MARK: - RFC 3339 ↔ ISO 8601 Conversions
 
     @Test
-    func convertRFC3339ToISO8601() throws {
+    func `convert RFC3339 To ISO8601`() throws {
         let time = try Time(
             year: 2024,
             month: 1,
@@ -38,7 +38,7 @@ struct RFC3339ConversionTests {
     }
 
     @Test
-    func convertRFC3339WithTimezoneToISO8601() throws {
+    func `convert RFC3339 With Timezone To ISO8601`() throws {
         let time = try Time(year: 2024, month: 1, day: 15, hour: 12, minute: 30, second: 0)
         let offset = try RFC_3339.Offset(seconds: 19800)  // +05:30
         let rfc3339 = RFC_3339.DateTime(time: time, offset: offset)
@@ -49,7 +49,7 @@ struct RFC3339ConversionTests {
     }
 
     @Test
-    func convertISO8601ToRFC3339() throws {
+    func `convert ISO8601 To RFC3339`() throws {
         let iso8601 = try ISO_8601.DateTime(
             year: 2024,
             month: 1,
@@ -68,7 +68,7 @@ struct RFC3339ConversionTests {
     }
 
     @Test
-    func convertISO8601WithTimezoneToRFC3339() throws {
+    func `convert ISO8601 With Timezone To RFC3339`() throws {
         let iso8601 = try ISO_8601.DateTime(
             year: 2024,
             month: 1,
@@ -86,7 +86,7 @@ struct RFC3339ConversionTests {
     }
 
     @Test
-    func roundTripRFC3339ToISO8601() throws {
+    func `round Trip RFC3339 To ISO8601`() throws {
         let time = try Time(
             year: 2024,
             month: 1,
@@ -111,7 +111,7 @@ struct RFC3339ConversionTests {
     // MARK: - RFC 3339 ↔ RFC 5322 Conversions
 
     @Test
-    func convertRFC3339ToRFC5322() throws {
+    func `convert RFC3339 To RFC5322`() throws {
         let time = try Time(year: 2024, month: 1, day: 15, hour: 12, minute: 30, second: 45)
         let rfc3339 = RFC_3339.DateTime(time: time, offset: .utc)
 
@@ -122,7 +122,7 @@ struct RFC3339ConversionTests {
     }
 
     @Test
-    func convertRFC3339ToRFC5322LosesSubSecondPrecision() throws {
+    func `convert RFC3339 To RFC5322 Loses Sub Second Precision`() throws {
         let time = try Time(
             year: 2024,
             month: 1,
@@ -143,7 +143,7 @@ struct RFC3339ConversionTests {
     }
 
     @Test
-    func convertRFC5322ToRFC3339() throws {
+    func `convert RFC5322 To RFC3339`() throws {
         let rfc5322 = RFC_5322.DateTime(
             secondsSinceEpoch: 1_705_324_245,
             timezoneOffsetSeconds: 0
@@ -157,7 +157,7 @@ struct RFC3339ConversionTests {
     }
 
     @Test
-    func convertRFC5322WithTimezoneToRFC3339() throws {
+    func `convert RFC5322 With Timezone To RFC3339`() throws {
         let rfc5322 = RFC_5322.DateTime(
             secondsSinceEpoch: 1_705_324_245,
             timezoneOffsetSeconds: -18000  // -05:00
@@ -169,7 +169,7 @@ struct RFC3339ConversionTests {
     }
 
     @Test
-    func roundTripRFC5322ToRFC3339() throws {
+    func `round Trip RFC5322 To RFC3339`() throws {
         let original = RFC_5322.DateTime(
             secondsSinceEpoch: 1_705_324_245,
             timezoneOffsetSeconds: 3600
@@ -185,7 +185,7 @@ struct RFC3339ConversionTests {
     // MARK: - Three-Way Conversions
 
     @Test
-    func threeWayConversionPreservesInstant() throws {
+    func `three Way Conversion Preserves Instant`() throws {
         let time = try Time(year: 2024, month: 6, day: 15, hour: 14, minute: 30, second: 0)
         let rfc3339 = RFC_3339.DateTime(time: time, offset: .utc)
 
@@ -198,7 +198,7 @@ struct RFC3339ConversionTests {
     }
 
     @Test
-    func unknownLocalOffsetHandling() throws {
+    func `unknown Local Offset Handling`() throws {
         let time = try Time(year: 2024, month: 1, day: 15, hour: 12, minute: 0, second: 0)
         let rfc3339 = RFC_3339.DateTime(time: time, offset: .unknownLocalOffset)
 

@@ -16,7 +16,7 @@ struct TimeStandardCrossFormatConversionTests {
     // MARK: - ISO 8601 ↔ RFC 5322 Conversions
 
     @Test
-    func convertRFC5322ToISO8601() throws {
+    func `convert RFC5322 To ISO8601`() throws {
         let rfc = RFC_5322.DateTime(
             secondsSinceEpoch: 1_705_324_245,  // 2024-01-15 12:30:45 UTC
             timezoneOffsetSeconds: 0
@@ -30,7 +30,7 @@ struct TimeStandardCrossFormatConversionTests {
     }
 
     @Test
-    func convertRFC5322WithTimezoneToISO8601() throws {
+    func `convert RFC5322 With Timezone To ISO8601`() throws {
         let rfc = RFC_5322.DateTime(
             secondsSinceEpoch: 1_705_324_245,
             timezoneOffsetSeconds: 3600  // +01:00
@@ -43,7 +43,7 @@ struct TimeStandardCrossFormatConversionTests {
     }
 
     @Test
-    func convertISO8601ToRFC5322() throws {
+    func `convert ISO8601 To RFC5322`() throws {
         let iso = try ISO_8601.DateTime(
             secondsSinceEpoch: 1_705_324_245,
             nanoseconds: 123_456_789,
@@ -58,7 +58,7 @@ struct TimeStandardCrossFormatConversionTests {
     }
 
     @Test
-    func convertISO8601WithTimezoneToRFC5322() throws {
+    func `convert ISO8601 With Timezone To RFC5322`() throws {
         let iso = try ISO_8601.DateTime(
             secondsSinceEpoch: 1_705_324_245,
             nanoseconds: 0,
@@ -72,7 +72,7 @@ struct TimeStandardCrossFormatConversionTests {
     }
 
     @Test
-    func roundTripISO8601ToRFC5322ToISO8601() throws {
+    func `round Trip ISO8601 To RFC5322 To ISO8601`() throws {
         let original = try ISO_8601.DateTime(
             secondsSinceEpoch: 1_705_324_245,
             nanoseconds: 0,  // No sub-second for clean round-trip
@@ -88,7 +88,7 @@ struct TimeStandardCrossFormatConversionTests {
     }
 
     @Test
-    func roundTripRFC5322ToISO8601ToRFC5322() throws {
+    func `round Trip RFC5322 To ISO8601 To RFC5322`() throws {
         let original = RFC_5322.DateTime(
             secondsSinceEpoch: 1_705_324_245,
             timezoneOffsetSeconds: -18000
@@ -102,7 +102,7 @@ struct TimeStandardCrossFormatConversionTests {
     }
 
     @Test
-    func iso8601SubSecondPrecisionIsTruncatedInRFC5322() throws {
+    func `iso8601 Sub Second Precision Is Truncated In RFC5322`() throws {
         let iso = try ISO_8601.DateTime(
             secondsSinceEpoch: 1_705_324_245,
             nanoseconds: 999_999_999,  // Maximum nanoseconds
@@ -120,7 +120,7 @@ struct TimeStandardCrossFormatConversionTests {
     }
 
     @Test
-    func timezoneEquivalenceAcrossFormats() throws {
+    func `timezone Equivalence Across Formats`() throws {
         // Test various timezone offsets
         let offsets = [
             0,  // UTC
@@ -145,7 +145,7 @@ struct TimeStandardCrossFormatConversionTests {
     }
 
     @Test
-    func epochPreservationAcrossConversions() throws {
+    func `epoch Preservation Across Conversions`() throws {
         let epochs = [
             0,  // Unix epoch
             1_705_324_245,  // 2024-01-15 12:30:45

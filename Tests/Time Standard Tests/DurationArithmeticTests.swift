@@ -16,7 +16,7 @@ struct DurationArithmeticTests {
 
     @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
     @Test
-    func convertTimeOnlyDurationToSwift() throws {
+    func `convert Time Only Duration To Swift`() throws {
         let duration = try ISO_8601.Duration(hours: 2, minutes: 30, seconds: 45)
         let swiftDuration = duration.swiftDuration
 
@@ -27,7 +27,7 @@ struct DurationArithmeticTests {
 
     @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
     @Test
-    func convertDurationWithDaysToSwift() throws {
+    func `convert Duration With Days To Swift`() throws {
         let duration = try ISO_8601.Duration(days: 1, hours: 12)
         let swiftDuration = duration.swiftDuration
 
@@ -38,7 +38,7 @@ struct DurationArithmeticTests {
 
     @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
     @Test
-    func convertDurationWithNanosecondsToSwift() throws {
+    func `convert Duration With Nanoseconds To Swift`() throws {
         let duration = try ISO_8601.Duration(seconds: 1, nanoseconds: 500_000_000)
         let swiftDuration = duration.swiftDuration
 
@@ -49,14 +49,14 @@ struct DurationArithmeticTests {
 
     @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
     @Test
-    func durationWithYearsReturnsNil() throws {
+    func `duration With Years Returns Nil`() throws {
         let duration = try ISO_8601.Duration(years: 1, days: 5)
         #expect(duration.swiftDuration == nil)
     }
 
     @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
     @Test
-    func durationWithMonthsReturnsNil() throws {
+    func `duration With Months Returns Nil`() throws {
         let duration = try ISO_8601.Duration(months: 6, hours: 12)
         #expect(duration.swiftDuration == nil)
     }
@@ -65,7 +65,7 @@ struct DurationArithmeticTests {
 
     @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
     @Test
-    func convertSwiftDurationToISO8601() throws {
+    func `convert Swift Duration To ISO8601`() throws {
         let swiftDuration = Duration.seconds(3661)  // 1 hour, 1 minute, 1 second
         let iso8601 = try ISO_8601.Duration(swiftDuration)
 
@@ -79,7 +79,7 @@ struct DurationArithmeticTests {
 
     @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
     @Test
-    func convertSwiftDurationWithNanoseconds() throws {
+    func `convert Swift Duration With Nanoseconds`() throws {
         let swiftDuration = Duration.seconds(1) + Duration.nanoseconds(123_456_789)
         let iso8601 = try ISO_8601.Duration(swiftDuration)
 
@@ -90,7 +90,7 @@ struct DurationArithmeticTests {
     // MARK: - DateTime + Duration
 
     @Test
-    func addTimeOnlyDuration() throws {
+    func `add Time Only Duration`() throws {
         let dateTime = try ISO_8601.DateTime(
             year: 2024,
             month: 1,
@@ -108,7 +108,7 @@ struct DurationArithmeticTests {
     }
 
     @Test
-    func addDaysDuration() throws {
+    func `add Days Duration`() throws {
         let dateTime = try ISO_8601.DateTime(
             year: 2024,
             month: 1,
@@ -127,7 +127,7 @@ struct DurationArithmeticTests {
     }
 
     @Test
-    func addMonthsDuration() throws {
+    func `add Months Duration`() throws {
         let dateTime = try ISO_8601.DateTime(
             year: 2024,
             month: 1,
@@ -146,7 +146,7 @@ struct DurationArithmeticTests {
     }
 
     @Test
-    func addMonthsWithDayClamping() throws {
+    func `add Months With Day Clamping`() throws {
         // Jan 31 + 1 month = Feb 29 (2024 is leap year)
         let dateTime = try ISO_8601.DateTime(
             year: 2024,
@@ -166,7 +166,7 @@ struct DurationArithmeticTests {
     }
 
     @Test
-    func addYearsDuration() throws {
+    func `add Years Duration`() throws {
         let dateTime = try ISO_8601.DateTime(
             year: 2024,
             month: 6,
@@ -187,7 +187,7 @@ struct DurationArithmeticTests {
     // MARK: - DateTime - Duration
 
     @Test
-    func subtractTimeDuration() throws {
+    func `subtract Time Duration`() throws {
         let dateTime = try ISO_8601.DateTime(
             year: 2024,
             month: 1,
@@ -205,7 +205,7 @@ struct DurationArithmeticTests {
     }
 
     @Test
-    func subtractDaysDuration() throws {
+    func `subtract Days Duration`() throws {
         let dateTime = try ISO_8601.DateTime(
             year: 2024,
             month: 2,
@@ -224,7 +224,7 @@ struct DurationArithmeticTests {
     }
 
     @Test
-    func subtractMonthsDuration() throws {
+    func `subtract Months Duration`() throws {
         let dateTime = try ISO_8601.DateTime(
             year: 2024,
             month: 4,
@@ -245,7 +245,7 @@ struct DurationArithmeticTests {
     // MARK: - Preserves Timezone
 
     @Test
-    func preservesTimezoneOffset() throws {
+    func `preserves Timezone Offset`() throws {
         let dateTime = try ISO_8601.DateTime(
             year: 2024,
             month: 1,
