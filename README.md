@@ -1,5 +1,7 @@
 # Time Standard
 
+![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
+
 Unified time representation across all time standards in pure Swift.
 
 ## Overview
