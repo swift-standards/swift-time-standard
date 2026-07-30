@@ -27,7 +27,6 @@ swift-time-standard          ← THIS PACKAGE (unified API)
 2. **Format-Specific Views**: Computes ISO 8601, RFC 5322, etc. on-demand
 3. **Preservation of Precision**: Full nanosecond precision maintained in canonical form
 4. **Timezone-Agnostic Core**: UTC only; timezones handled by format-specific types
-5. **Category-Theoretic Foundation**: Based on functors, natural transformations (see CATEGORICAL_PROPERTIES.md in swift-standards/Time)
 
 ## Installation
 
@@ -219,7 +218,6 @@ The Time Standard architecture is grounded in category theory:
 `Standards.Time` is the **initial object** in the category of time representations:
 - Most primitive, format-agnostic
 - All other time types have unique morphisms from Time
-- See `swift-standards/Sources/Time/CATEGORICAL_PROPERTIES.md`
 
 ### Functors
 
@@ -279,4 +277,3 @@ Apache License 2.0
 ## See Also
 
 - **[Swift Standards Organization](https://github.com/swift-standards)** - All standards packages
-- **[CATEGORICAL_PROPERTIES.md](https://github.com/swift-standards/swift-standards/blob/main/Sources/Time/CATEGORICAL_PROPERTIES.md)** - Mathematical foundation of Time module
