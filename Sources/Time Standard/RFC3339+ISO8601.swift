@@ -39,7 +39,11 @@ extension RFC_3339.DateTime {
             offset = .utc
         } else {
             // RFC 3339 offset is validated, but ISO 8601 uses the same range
-            offset = (try? RFC_3339.Offset(seconds: iso8601.timezone.offsetSeconds)) ?? .utc
+            do throws(RFC_3339.Offset.Error) {
+                offset = try RFC_3339.Offset(seconds: iso8601.timezone.offsetSeconds)
+            } catch {
+                offset = .utc
+            }
         }
 
         self.init(time: iso8601.time, offset: offset)

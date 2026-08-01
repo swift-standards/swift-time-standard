@@ -26,7 +26,11 @@ extension ISO_8601.DateTime {
     /// - Parameter duration: The duration to add
     /// - Returns: A new DateTime with the duration added
     public func adding(_ duration: ISO_8601.Duration) -> ISO_8601.DateTime {
+        // swift-linter:disable:next raw value access
+        // REASON: calendar arithmetic (adding a duration) needs the underlying Int; no typed add operation exists on `Time.Year`/`Time.Month`.
         var year = time.year.rawValue + duration.years
+        // swift-linter:disable:next raw value access
+        // REASON: calendar arithmetic (adding a duration) needs the underlying Int; no typed add operation exists on `Time.Year`/`Time.Month`.
         var month = time.month.rawValue + duration.months
 
         // Normalize months (handle overflow)
@@ -41,6 +45,8 @@ extension ISO_8601.DateTime {
 
         // Clamp day to valid range for the new month
         let maxDay = Time.Month(unchecked: month).days(in: Time.Year(year))
+        // swift-linter:disable:next raw value access
+        // REASON: calendar arithmetic (clamping to a new month's range) needs the underlying Int; no typed comparison operation exists here.
         let day = min(time.day.rawValue, maxDay)
 
         // Calculate time components addition using seconds

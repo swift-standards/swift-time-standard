@@ -10,7 +10,11 @@ import Time_Primitives
 @testable import Time_Standard
 
 @Suite
-struct DurationArithmeticTests {
+struct `Duration Arithmetic Tests` {
+    @Suite struct Unit {}
+    @Suite struct `Edge Case` {}
+    @Suite struct Integration {}
+
 
     // MARK: - ISO 8601 Duration → Swift.Duration
 
@@ -121,8 +125,14 @@ struct DurationArithmeticTests {
 
         let result = dateTime + duration
 
+        // swift-linter:disable:next raw value access
+        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.year.rawValue == 2024)
+        // swift-linter:disable:next raw value access
+        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.month.rawValue == 2)
+        // swift-linter:disable:next raw value access
+        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.day.rawValue == 4)
     }
 
@@ -140,8 +150,14 @@ struct DurationArithmeticTests {
 
         let result = dateTime + duration
 
+        // swift-linter:disable:next raw value access
+        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.year.rawValue == 2024)
+        // swift-linter:disable:next raw value access
+        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.month.rawValue == 4)
+        // swift-linter:disable:next raw value access
+        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.day.rawValue == 15)
     }
 
@@ -160,8 +176,14 @@ struct DurationArithmeticTests {
 
         let result = dateTime + duration
 
+        // swift-linter:disable:next raw value access
+        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.year.rawValue == 2024)
+        // swift-linter:disable:next raw value access
+        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.month.rawValue == 2)
+        // swift-linter:disable:next raw value access
+        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.day.rawValue == 29)  // Clamped to end of Feb
     }
 
@@ -179,8 +201,14 @@ struct DurationArithmeticTests {
 
         let result = dateTime + duration
 
+        // swift-linter:disable:next raw value access
+        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.year.rawValue == 2026)
+        // swift-linter:disable:next raw value access
+        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.month.rawValue == 6)
+        // swift-linter:disable:next raw value access
+        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.day.rawValue == 15)
     }
 
@@ -218,8 +246,14 @@ struct DurationArithmeticTests {
 
         let result = dateTime - duration
 
+        // swift-linter:disable:next raw value access
+        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.year.rawValue == 2024)
+        // swift-linter:disable:next raw value access
+        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.month.rawValue == 1)
+        // swift-linter:disable:next raw value access
+        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.day.rawValue == 15)
     }
 
@@ -237,8 +271,14 @@ struct DurationArithmeticTests {
 
         let result = dateTime - duration
 
+        // swift-linter:disable:next raw value access
+        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.year.rawValue == 2024)
+        // swift-linter:disable:next raw value access
+        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.month.rawValue == 1)
+        // swift-linter:disable:next raw value access
+        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.day.rawValue == 15)
     }
 

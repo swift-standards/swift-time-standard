@@ -11,7 +11,11 @@ import Time_Primitives
 @testable import Time_Standard
 
 @Suite
-struct TimeStandardCrossFormatConversionTests {
+struct `Time Standard Cross-Format Conversion Tests` {
+    @Suite struct Unit {}
+    @Suite struct `Edge Case` {}
+    @Suite struct Integration {}
+
 
     // MARK: - ISO 8601 ↔ RFC 5322 Conversions
 

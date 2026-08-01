@@ -12,7 +12,11 @@ import Time_Primitives
 @testable import Time_Standard
 
 @Suite
-struct RFC3339ConversionTests {
+struct `RFC 3339 Conversion Tests` {
+    @Suite struct Unit {}
+    @Suite struct `Edge Case` {}
+    @Suite struct Integration {}
+
 
     // MARK: - RFC 3339 ↔ ISO 8601 Conversions
 

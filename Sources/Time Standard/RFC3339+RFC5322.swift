@@ -44,7 +44,11 @@ extension RFC_3339.DateTime {
             offset = .utc
         } else {
             // RFC 3339 offset is validated, but RFC 5322 uses the same range
-            offset = (try? RFC_3339.Offset(seconds: rfc5322.timezoneOffsetSeconds)) ?? .utc
+            do throws(RFC_3339.Offset.Error) {
+                offset = try RFC_3339.Offset(seconds: rfc5322.timezoneOffsetSeconds)
+            } catch {
+                offset = .utc
+            }
         }
 
         self.init(time: rfc5322.time, offset: offset)
