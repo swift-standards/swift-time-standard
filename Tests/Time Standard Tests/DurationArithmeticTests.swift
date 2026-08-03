@@ -15,7 +15,6 @@ struct `Duration Arithmetic Tests` {
     @Suite struct `Edge Case` {}
     @Suite struct Integration {}
 
-
     // MARK: - ISO 8601 Duration → Swift.Duration
 
     @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)

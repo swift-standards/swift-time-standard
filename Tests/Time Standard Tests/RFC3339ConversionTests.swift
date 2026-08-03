@@ -17,7 +17,6 @@ struct `RFC 3339 Conversion Tests` {
     @Suite struct `Edge Case` {}
     @Suite struct Integration {}
 
-
     // MARK: - RFC 3339 ↔ ISO 8601 Conversions
 
     @Test

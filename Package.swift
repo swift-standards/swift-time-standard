@@ -9,7 +9,9 @@ extension String {
 extension Target.Dependency {
     static var timeStandard: Self { .target(name: .timeStandard) }
     static var time: Self { .product(name: "Time Primitives", package: "swift-time-primitives") }
-    static var standards: Self { .product(name: "Standard Library Extensions", package: "swift-standard-library-extensions") }
+    static var standards: Self {
+        .product(name: "Standard Library Extensions", package: "swift-standard-library-extensions")
+    }
     static var iso8601: Self { .product(name: "ISO 8601", package: "swift-iso-8601") }
     static var rfc5322: Self { .product(name: "RFC 5322", package: "swift-rfc-5322") }
     static var rfc3339: Self { .product(name: "RFC 3339", package: "swift-rfc-3339") }
@@ -21,17 +23,23 @@ let package = Package(
         .macOS(.v26),
         .iOS(.v26),
         .tvOS(.v26),
-        .watchOS(.v26)
+        .watchOS(.v26),
     ],
     products: [
         .library(name: "Time Standard", targets: ["Time Standard"])
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-primitives/swift-standard-library-extensions.git", branch: "main"),
-        .package(url: "https://github.com/swift-primitives/swift-time-primitives.git", branch: "main"),
+        .package(
+            url: "https://github.com/swift-primitives/swift-standard-library-extensions.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/swift-primitives/swift-time-primitives.git",
+            branch: "main"
+        ),
         .package(url: "https://github.com/swift-iso/swift-iso-8601.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-5322.git", branch: "main"),
-        .package(url: "https://github.com/swift-ietf/swift-rfc-3339.git", branch: "main")
+        .package(url: "https://github.com/swift-ietf/swift-rfc-3339.git", branch: "main"),
     ],
     targets: [
         .target(
@@ -41,13 +49,13 @@ let package = Package(
                 .standards,
                 .iso8601,
                 .rfc5322,
-                .rfc3339
+                .rfc3339,
             ]
         ),
         .testTarget(
             name: "Time Standard Tests",
             dependencies: [
-                "Time Standard",
+                "Time Standard"
             ]
         ),
     ],
