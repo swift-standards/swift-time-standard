@@ -1,8 +1,3 @@
-// DurationArithmeticTests.swift
-// Time Standard Tests
-//
-// Tests for ISO 8601 Duration arithmetic
-
 import ISO_8601
 import Testing
 import Time_Primitives
@@ -14,8 +9,6 @@ struct `Duration Arithmetic Tests` {
     @Suite struct Unit {}
     @Suite struct `Edge Case` {}
     @Suite struct Integration {}
-
-    // MARK: - ISO 8601 Duration → Swift.Duration
 
     @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
     @Test
@@ -64,12 +57,10 @@ struct `Duration Arithmetic Tests` {
         #expect(duration.swiftDuration == nil)
     }
 
-    // MARK: - Swift.Duration → ISO 8601 Duration
-
     @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
     @Test
     func `convert Swift Duration To ISO8601`() throws {
-        let swiftDuration = Duration.seconds(3661)  // 1 hour, 1 minute, 1 second
+        let swiftDuration = Duration.seconds(3661)
         let iso8601 = try ISO_8601.Duration(swiftDuration)
 
         #expect(iso8601.years == 0)
@@ -89,8 +80,6 @@ struct `Duration Arithmetic Tests` {
         #expect(iso8601.seconds == 1)
         #expect(iso8601.nanoseconds == 123_456_789)
     }
-
-    // MARK: - DateTime + Duration
 
     @Test
     func `add Time Only Duration`() throws {
@@ -124,14 +113,10 @@ struct `Duration Arithmetic Tests` {
 
         let result = dateTime + duration
 
-        // swift-linter:disable:next raw value access
-        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.year.rawValue == 2024)
-        // swift-linter:disable:next raw value access
-        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
+
         #expect(result.time.month.rawValue == 2)
-        // swift-linter:disable:next raw value access
-        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
+
         #expect(result.time.day.rawValue == 4)
     }
 
@@ -149,20 +134,16 @@ struct `Duration Arithmetic Tests` {
 
         let result = dateTime + duration
 
-        // swift-linter:disable:next raw value access
-        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.year.rawValue == 2024)
-        // swift-linter:disable:next raw value access
-        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
+
         #expect(result.time.month.rawValue == 4)
-        // swift-linter:disable:next raw value access
-        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
+
         #expect(result.time.day.rawValue == 15)
     }
 
     @Test
     func `add Months With Day Clamping`() throws {
-        // Jan 31 + 1 month = Feb 29 (2024 is leap year)
+
         let dateTime = try ISO_8601.DateTime(
             year: 2024,
             month: 1,
@@ -175,15 +156,11 @@ struct `Duration Arithmetic Tests` {
 
         let result = dateTime + duration
 
-        // swift-linter:disable:next raw value access
-        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.year.rawValue == 2024)
-        // swift-linter:disable:next raw value access
-        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
+
         #expect(result.time.month.rawValue == 2)
-        // swift-linter:disable:next raw value access
-        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
-        #expect(result.time.day.rawValue == 29)  // Clamped to end of Feb
+
+        #expect(result.time.day.rawValue == 29)
     }
 
     @Test
@@ -200,18 +177,12 @@ struct `Duration Arithmetic Tests` {
 
         let result = dateTime + duration
 
-        // swift-linter:disable:next raw value access
-        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.year.rawValue == 2026)
-        // swift-linter:disable:next raw value access
-        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
+
         #expect(result.time.month.rawValue == 6)
-        // swift-linter:disable:next raw value access
-        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
+
         #expect(result.time.day.rawValue == 15)
     }
-
-    // MARK: - DateTime - Duration
 
     @Test
     func `subtract Time Duration`() throws {
@@ -245,14 +216,10 @@ struct `Duration Arithmetic Tests` {
 
         let result = dateTime - duration
 
-        // swift-linter:disable:next raw value access
-        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.year.rawValue == 2024)
-        // swift-linter:disable:next raw value access
-        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
+
         #expect(result.time.month.rawValue == 1)
-        // swift-linter:disable:next raw value access
-        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
+
         #expect(result.time.day.rawValue == 15)
     }
 
@@ -270,18 +237,12 @@ struct `Duration Arithmetic Tests` {
 
         let result = dateTime - duration
 
-        // swift-linter:disable:next raw value access
-        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
         #expect(result.time.year.rawValue == 2024)
-        // swift-linter:disable:next raw value access
-        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
+
         #expect(result.time.month.rawValue == 1)
-        // swift-linter:disable:next raw value access
-        // REASON: test asserts the parsed/computed typed value directly via its own `rawValue`.
+
         #expect(result.time.day.rawValue == 15)
     }
-
-    // MARK: - Preserves Timezone
 
     @Test
     func `preserves Timezone Offset`() throws {
@@ -293,7 +254,7 @@ struct `Duration Arithmetic Tests` {
             minute: 0,
             second: 0,
             nanoseconds: 0,
-            timezoneOffsetSeconds: 3600  // +01:00
+            timezoneOffsetSeconds: 3600
         )
         let duration = try ISO_8601.Duration(hours: 1)
 

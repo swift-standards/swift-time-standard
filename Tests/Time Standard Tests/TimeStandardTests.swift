@@ -1,8 +1,3 @@
-// TimeStandardTests.swift
-// Time Standard Tests
-//
-// Tests for cross-standard conversions
-
 import ISO_8601
 import RFC_5322
 import Testing
@@ -16,19 +11,17 @@ struct `Time Standard Cross-Format Conversion Tests` {
     @Suite struct `Edge Case` {}
     @Suite struct Integration {}
 
-    // MARK: - ISO 8601 ↔ RFC 5322 Conversions
-
     @Test
     func `convert RFC5322 To ISO8601`() throws {
         let rfc = RFC_5322.DateTime(
-            secondsSinceEpoch: 1_705_324_245,  // 2024-01-15 12:30:45 UTC
+            secondsSinceEpoch: 1_705_324_245,
             timezoneOffsetSeconds: 0
         )
 
         let iso = try ISO_8601.DateTime(rfc)
 
         #expect(iso.epoch.seconds == 1_705_324_245)
-        #expect(iso.nanoseconds == 0)  // RFC 5322 has no sub-second precision
+        #expect(iso.nanoseconds == 0)
         #expect(iso.timezone.offsetSeconds == 0)
     }
 
@@ -36,13 +29,13 @@ struct `Time Standard Cross-Format Conversion Tests` {
     func `convert RFC5322 With Timezone To ISO8601`() throws {
         let rfc = RFC_5322.DateTime(
             secondsSinceEpoch: 1_705_324_245,
-            timezoneOffsetSeconds: 3600  // +01:00
+            timezoneOffsetSeconds: 3600
         )
 
         let iso = try ISO_8601.DateTime(rfc)
 
         #expect(iso.epoch.seconds == 1_705_324_245)
-        #expect(iso.timezone.offsetSeconds == 3600)  // Timezone preserved
+        #expect(iso.timezone.offsetSeconds == 3600)
     }
 
     @Test
@@ -57,7 +50,7 @@ struct `Time Standard Cross-Format Conversion Tests` {
 
         #expect(rfc.secondsSinceEpoch == 1_705_324_245)
         #expect(rfc.timezoneOffsetSeconds == 0)
-        // Note: Sub-second precision is lost in RFC 5322
+
     }
 
     @Test
@@ -65,20 +58,20 @@ struct `Time Standard Cross-Format Conversion Tests` {
         let iso = try ISO_8601.DateTime(
             secondsSinceEpoch: 1_705_324_245,
             nanoseconds: 0,
-            timezoneOffsetSeconds: -18000  // -05:00
+            timezoneOffsetSeconds: -18000
         )
 
         let rfc = RFC_5322.DateTime(iso)
 
         #expect(rfc.secondsSinceEpoch == 1_705_324_245)
-        #expect(rfc.timezoneOffsetSeconds == -18000)  // Timezone preserved
+        #expect(rfc.timezoneOffsetSeconds == -18000)
     }
 
     @Test
     func `round Trip ISO8601 To RFC5322 To ISO8601`() throws {
         let original = try ISO_8601.DateTime(
             secondsSinceEpoch: 1_705_324_245,
-            nanoseconds: 0,  // No sub-second for clean round-trip
+            nanoseconds: 0,
             timezoneOffsetSeconds: 3600
         )
 
@@ -87,7 +80,7 @@ struct `Time Standard Cross-Format Conversion Tests` {
 
         #expect(restored.epoch.seconds == original.epoch.seconds)
         #expect(restored.timezone.offsetSeconds == original.timezone.offsetSeconds)
-        #expect(restored.nanoseconds == 0)  // Sub-second precision lost
+        #expect(restored.nanoseconds == 0)
     }
 
     @Test
@@ -108,29 +101,27 @@ struct `Time Standard Cross-Format Conversion Tests` {
     func `iso8601 Sub Second Precision Is Truncated In RFC5322`() throws {
         let iso = try ISO_8601.DateTime(
             secondsSinceEpoch: 1_705_324_245,
-            nanoseconds: 999_999_999,  // Maximum nanoseconds
+            nanoseconds: 999_999_999,
             timezoneOffsetSeconds: 0
         )
 
         let rfc = RFC_5322.DateTime(iso)
 
-        // RFC 5322 only has second precision
         #expect(rfc.secondsSinceEpoch == 1_705_324_245)
 
-        // Converting back loses sub-second precision
         let isoRestored = try ISO_8601.DateTime(rfc)
         #expect(isoRestored.nanoseconds == 0)
     }
 
     @Test
     func `timezone Equivalence Across Formats`() throws {
-        // Test various timezone offsets
+
         let offsets = [
-            0,  // UTC
-            3600,  // +01:00
-            -18000,  // -05:00
-            19800,  // +05:30 (India)
-            -43200,  // -12:00
+            0,
+            3600,
+            -18000,
+            19800,
+            -43200,
         ]
 
         for offset in offsets {
@@ -150,10 +141,10 @@ struct `Time Standard Cross-Format Conversion Tests` {
     @Test
     func `epoch Preservation Across Conversions`() throws {
         let epochs = [
-            0,  // Unix epoch
-            1_705_324_245,  // 2024-01-15 12:30:45
-            -86400,  // Before epoch
-            2_147_483_647,  // Y2038 problem boundary
+            0,
+            1_705_324_245,
+            -86400,
+            2_147_483_647,
         ]
 
         for epoch in epochs {

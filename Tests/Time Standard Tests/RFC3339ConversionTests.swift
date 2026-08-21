@@ -1,8 +1,3 @@
-// RFC3339ConversionTests.swift
-// Time Standard Tests
-//
-// Tests for RFC 3339 cross-standard conversions
-
 import ISO_8601
 import RFC_3339
 import RFC_5322
@@ -16,8 +11,6 @@ struct `RFC 3339 Conversion Tests` {
     @Suite struct Unit {}
     @Suite struct `Edge Case` {}
     @Suite struct Integration {}
-
-    // MARK: - RFC 3339 ↔ ISO 8601 Conversions
 
     @Test
     func `convert RFC3339 To ISO8601`() throws {
@@ -43,7 +36,7 @@ struct `RFC 3339 Conversion Tests` {
     @Test
     func `convert RFC3339 With Timezone To ISO8601`() throws {
         let time = try Time(year: 2024, month: 1, day: 15, hour: 12, minute: 30, second: 0)
-        let offset = try RFC_3339.Offset(seconds: 19800)  // +05:30
+        let offset = try RFC_3339.Offset(seconds: 19800)
         let rfc3339 = RFC_3339.DateTime(time: time, offset: offset)
 
         let iso8601 = ISO_8601.DateTime(rfc3339)
@@ -80,7 +73,7 @@ struct `RFC 3339 Conversion Tests` {
             minute: 30,
             second: 0,
             nanoseconds: 0,
-            timezoneOffsetSeconds: -18000  // -05:00
+            timezoneOffsetSeconds: -18000
         )
 
         let rfc3339 = RFC_3339.DateTime(iso8601)
@@ -111,8 +104,6 @@ struct `RFC 3339 Conversion Tests` {
         #expect(restored.offset.seconds == original.offset.seconds)
     }
 
-    // MARK: - RFC 3339 ↔ RFC 5322 Conversions
-
     @Test
     func `convert RFC3339 To RFC5322`() throws {
         let time = try Time(year: 2024, month: 1, day: 15, hour: 12, minute: 30, second: 45)
@@ -141,7 +132,6 @@ struct `RFC 3339 Conversion Tests` {
 
         let rfc5322 = RFC_5322.DateTime(rfc3339)
 
-        // RFC 5322 only has second precision, sub-seconds are truncated
         #expect(rfc5322.secondsSinceEpoch == time.secondsSinceEpoch)
     }
 
@@ -156,14 +146,14 @@ struct `RFC 3339 Conversion Tests` {
 
         #expect(rfc3339.time.secondsSinceEpoch == 1_705_324_245)
         #expect(rfc3339.offset == .utc)
-        #expect(rfc3339.time.totalNanoseconds == 0)  // RFC 5322 has no sub-seconds
+        #expect(rfc3339.time.totalNanoseconds == 0)
     }
 
     @Test
     func `convert RFC5322 With Timezone To RFC3339`() throws {
         let rfc5322 = RFC_5322.DateTime(
             secondsSinceEpoch: 1_705_324_245,
-            timezoneOffsetSeconds: -18000  // -05:00
+            timezoneOffsetSeconds: -18000
         )
 
         let rfc3339 = RFC_3339.DateTime(rfc5322)
@@ -185,18 +175,14 @@ struct `RFC 3339 Conversion Tests` {
         #expect(restored.timezoneOffsetSeconds == original.timezoneOffsetSeconds)
     }
 
-    // MARK: - Three-Way Conversions
-
     @Test
     func `three Way Conversion Preserves Instant`() throws {
         let time = try Time(year: 2024, month: 6, day: 15, hour: 14, minute: 30, second: 0)
         let rfc3339 = RFC_3339.DateTime(time: time, offset: .utc)
 
-        // RFC 3339 → ISO 8601 → RFC 5322
         let iso8601 = ISO_8601.DateTime(rfc3339)
         let rfc5322 = RFC_5322.DateTime(iso8601)
 
-        // All should represent the same instant
         #expect(rfc5322.secondsSinceEpoch == time.secondsSinceEpoch)
     }
 
@@ -205,7 +191,6 @@ struct `RFC 3339 Conversion Tests` {
         let time = try Time(year: 2024, month: 1, day: 15, hour: 12, minute: 0, second: 0)
         let rfc3339 = RFC_3339.DateTime(time: time, offset: .unknownLocalOffset)
 
-        // Unknown offset is still 0 seconds from UTC
         let iso8601 = ISO_8601.DateTime(rfc3339)
         #expect(iso8601.timezone.offsetSeconds == 0)
 
