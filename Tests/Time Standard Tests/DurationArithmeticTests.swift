@@ -1,6 +1,6 @@
 import ISO_8601
 import Testing
-import Time_Primitives
+import Time
 
 @testable import Time_Standard
 

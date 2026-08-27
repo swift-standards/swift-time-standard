@@ -2,7 +2,7 @@ import ISO_8601
 import RFC_3339
 import RFC_5322
 import Testing
-import Time_Primitives
+import Time
 
 @testable import Time_Standard
 

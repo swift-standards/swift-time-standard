@@ -8,7 +8,7 @@ extension String {
 
 extension Target.Dependency {
     static var timeStandard: Self { .target(name: .timeStandard) }
-    static var time: Self { .product(name: "Time Primitives", package: "swift-time-primitives") }
+    static var time: Self { .product(name: "Time", package: "swift-time") }
     static var standards: Self {
         .product(name: "Standard Library Extensions", package: "swift-standard-library-extensions")
     }
@@ -30,11 +30,11 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-primitives/swift-standard-library-extensions.git",
+            url: "https://github.com/swift-molecules/swift-standard-library-extensions.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-time-primitives.git",
+            url: "https://github.com/swift-molecules/swift-time.git",
             branch: "main"
         ),
         .package(url: "https://github.com/swift-iso/swift-iso-8601.git", branch: "main"),

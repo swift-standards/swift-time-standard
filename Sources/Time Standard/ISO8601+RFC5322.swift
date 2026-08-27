@@ -1,6 +1,6 @@
 import ISO_8601
 import RFC_5322
-import Time_Primitives
+import Time
 
 extension ISO_8601.DateTime {
 

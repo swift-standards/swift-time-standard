@@ -1,5 +1,5 @@
 public import ISO_8601
-@_spi(Internal) import Time_Primitives
+@_spi(Internal) import Time
 
 extension ISO_8601.DateTime {
 

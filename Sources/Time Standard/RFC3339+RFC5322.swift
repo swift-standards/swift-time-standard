@@ -1,6 +1,6 @@
 public import RFC_3339
 public import RFC_5322
-import Time_Primitives
+import Time
 
 extension RFC_5322.DateTime {
 
