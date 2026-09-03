@@ -2,21 +2,6 @@
 
 import PackageDescription
 
-extension String {
-    static let timeStandard: Self = "Time Standard"
-}
-
-extension Target.Dependency {
-    static var timeStandard: Self { .target(name: .timeStandard) }
-    static var time: Self { .product(name: "Time", package: "swift-time") }
-    static var standards: Self {
-        .product(name: "Standard Library Extensions", package: "swift-standard-library-extensions")
-    }
-    static var iso8601: Self { .product(name: "ISO 8601", package: "swift-iso-8601") }
-    static var rfc5322: Self { .product(name: "RFC 5322", package: "swift-rfc-5322") }
-    static var rfc3339: Self { .product(name: "RFC 3339", package: "swift-rfc-3339") }
-}
-
 let package = Package(
     name: "swift-time-standard",
     platforms: [
@@ -45,27 +30,22 @@ let package = Package(
         .target(
             name: "Time Standard",
             dependencies: [
-                .time,
-                .standards,
-                .iso8601,
-                .rfc5322,
-                .rfc3339,
+                .product(name: "Time", package: "swift-time"),
+                .product(name: "Standard Library Extensions", package: "swift-standard-library-extensions"),
+                .product(name: "ISO 8601", package: "swift-iso-8601"),
+                .product(name: "RFC 5322", package: "swift-rfc-5322"),
+                .product(name: "RFC 3339", package: "swift-rfc-3339"),
             ]
         ),
         .testTarget(
             name: "Time Standard Tests",
             dependencies: [
-                "Time Standard"
+                .target(name: "Time Standard")
             ]
         ),
     ],
     swiftLanguageModes: [.v6]
 )
-
-extension String {
-    var tests: Self { self + " Tests" }
-    var foundation: Self { self + " Foundation" }
-}
 
 for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
     let ecosystem: [SwiftSetting] = [
