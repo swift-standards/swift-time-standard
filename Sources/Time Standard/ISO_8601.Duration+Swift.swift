@@ -13,7 +13,7 @@ extension ISO_8601.Duration {
         return .seconds(totalSeconds) + .nanoseconds(nanoseconds)
     }
 
-    public init(_ duration: Swift.Duration) throws(ISO_8601.Date.Error) {
+    public init(_ duration: Swift.Duration) throws(ISO_8601.Duration.Error) {
         let (seconds, attoseconds) = duration.components
         let nanoseconds = Int(attoseconds / 1_000_000_000)
 

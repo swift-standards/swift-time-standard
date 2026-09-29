@@ -20,9 +20,9 @@ struct `Time Standard Cross-Format Conversion Tests` {
 
         let iso = try ISO_8601.DateTime(rfc)
 
-        #expect(iso.epoch.seconds == 1_705_324_245)
+        #expect(iso.instant.secondsSinceUnixEpoch == 1_705_324_245)
         #expect(iso.nanoseconds == 0)
-        #expect(iso.timezone.offsetSeconds == 0)
+        #expect(iso.offset.seconds == 0)
     }
 
     @Test
@@ -34,16 +34,15 @@ struct `Time Standard Cross-Format Conversion Tests` {
 
         let iso = try ISO_8601.DateTime(rfc)
 
-        #expect(iso.epoch.seconds == 1_705_324_245)
-        #expect(iso.timezone.offsetSeconds == 3600)
+        #expect(iso.instant.secondsSinceUnixEpoch == 1_705_324_245)
+        #expect(iso.offset.seconds == 3600)
     }
 
     @Test
     func `convert ISO8601 To RFC5322`() throws {
         let iso = try ISO_8601.DateTime(
-            secondsSinceEpoch: 1_705_324_245,
-            nanoseconds: 123_456_789,
-            timezoneOffsetSeconds: 0
+            Time.Instant(secondsSinceUnixEpoch: 1_705_324_245, nanosecondFraction: 123_456_789),
+            offset: ISO_8601.Timezone.Offset(seconds: 0)
         )
 
         let rfc = RFC_5322.DateTime(iso)
@@ -56,9 +55,8 @@ struct `Time Standard Cross-Format Conversion Tests` {
     @Test
     func `convert ISO8601 With Timezone To RFC5322`() throws {
         let iso = try ISO_8601.DateTime(
-            secondsSinceEpoch: 1_705_324_245,
-            nanoseconds: 0,
-            timezoneOffsetSeconds: -18000
+            Time.Instant(secondsSinceUnixEpoch: 1_705_324_245, nanosecondFraction: 0),
+            offset: ISO_8601.Timezone.Offset(seconds: -18000)
         )
 
         let rfc = RFC_5322.DateTime(iso)
@@ -70,16 +68,15 @@ struct `Time Standard Cross-Format Conversion Tests` {
     @Test
     func `round Trip ISO8601 To RFC5322 To ISO8601`() throws {
         let original = try ISO_8601.DateTime(
-            secondsSinceEpoch: 1_705_324_245,
-            nanoseconds: 0,
-            timezoneOffsetSeconds: 3600
+            Time.Instant(secondsSinceUnixEpoch: 1_705_324_245, nanosecondFraction: 0),
+            offset: ISO_8601.Timezone.Offset(seconds: 3600)
         )
 
         let rfc = RFC_5322.DateTime(original)
         let restored = try ISO_8601.DateTime(rfc)
 
-        #expect(restored.epoch.seconds == original.epoch.seconds)
-        #expect(restored.timezone.offsetSeconds == original.timezone.offsetSeconds)
+        #expect(restored.instant == original.instant)
+        #expect(restored.offset.seconds == original.offset.seconds)
         #expect(restored.nanoseconds == 0)
     }
 
@@ -100,9 +97,8 @@ struct `Time Standard Cross-Format Conversion Tests` {
     @Test
     func `iso8601 Sub Second Precision Is Truncated In RFC5322`() throws {
         let iso = try ISO_8601.DateTime(
-            secondsSinceEpoch: 1_705_324_245,
-            nanoseconds: 999_999_999,
-            timezoneOffsetSeconds: 0
+            Time.Instant(secondsSinceUnixEpoch: 1_705_324_245, nanosecondFraction: 999_999_999),
+            offset: ISO_8601.Timezone.Offset(seconds: 0)
         )
 
         let rfc = RFC_5322.DateTime(iso)
@@ -131,7 +127,7 @@ struct `Time Standard Cross-Format Conversion Tests` {
             )
 
             let iso = try ISO_8601.DateTime(rfc)
-            #expect(iso.timezone.offsetSeconds == offset)
+            #expect(iso.offset.seconds == offset)
 
             let rfcRestored = RFC_5322.DateTime(iso)
             #expect(rfcRestored.timezoneOffsetSeconds == offset)
@@ -149,16 +145,27 @@ struct `Time Standard Cross-Format Conversion Tests` {
 
         for epoch in epochs {
             let iso = try ISO_8601.DateTime(
-                secondsSinceEpoch: epoch,
-                nanoseconds: 0,
-                timezoneOffsetSeconds: 0
+                Time.Instant(secondsSinceUnixEpoch: Int64(epoch), nanosecondFraction: 0),
+                offset: ISO_8601.Timezone.Offset(seconds: 0)
             )
 
             let rfc = RFC_5322.DateTime(iso)
             #expect(rfc.secondsSinceEpoch == epoch)
 
             let isoRestored = try ISO_8601.DateTime(rfc)
-            #expect(isoRestored.epoch.seconds == epoch)
+            #expect(Int(isoRestored.instant.secondsSinceUnixEpoch) == epoch)
+        }
+    }
+
+    @Test
+    func `sub minute RFC5322 offset throws when converting to ISO8601`() {
+        let rfc = RFC_5322.DateTime(
+            secondsSinceEpoch: 1_705_324_245,
+            timezoneOffsetSeconds: 30
+        )
+
+        #expect(throws: ISO_8601.DateTime.Conversion.Error.offset(.fractionalMinute(30))) {
+            try ISO_8601.DateTime(rfc)
         }
     }
 }

@@ -14,7 +14,7 @@ struct `RFC 3339 Conversion Tests` {
 
     @Test
     func `convert RFC3339 To ISO8601`() throws {
-        let time = try Time(
+        let time = try Gregorian.DateTime(
             year: 2024,
             month: 1,
             day: 15,
@@ -27,21 +27,32 @@ struct `RFC 3339 Conversion Tests` {
         )
         let rfc3339 = RFC_3339.DateTime(time: time, offset: .utc)
 
-        let iso8601 = ISO_8601.DateTime(rfc3339)
+        let iso8601 = try ISO_8601.DateTime(rfc3339)
 
-        #expect(iso8601.time == time)
-        #expect(iso8601.timezone.offsetSeconds == 0)
+        #expect(
+            iso8601
+                == (try ISO_8601.DateTime(
+                    year: 2024,
+                    month: 1,
+                    day: 15,
+                    hour: 12,
+                    minute: 30,
+                    second: 45,
+                    nanoseconds: 123_456_789
+                ))
+        )
+        #expect(iso8601.offset.seconds == 0)
     }
 
     @Test
     func `convert RFC3339 With Timezone To ISO8601`() throws {
-        let time = try Time(year: 2024, month: 1, day: 15, hour: 12, minute: 30, second: 0)
+        let time = try Gregorian.DateTime(year: 2024, month: 1, day: 15, hour: 12, minute: 30, second: 0)
         let offset = try RFC_3339.Offset(seconds: 19800)
         let rfc3339 = RFC_3339.DateTime(time: time, offset: offset)
 
-        let iso8601 = ISO_8601.DateTime(rfc3339)
+        let iso8601 = try ISO_8601.DateTime(rfc3339)
 
-        #expect(iso8601.timezone.offsetSeconds == 19800)
+        #expect(iso8601.offset.seconds == 19800)
     }
 
     @Test
@@ -54,12 +65,25 @@ struct `RFC 3339 Conversion Tests` {
             minute: 30,
             second: 45,
             nanoseconds: 123_456_789,
-            timezoneOffsetSeconds: 0
+            offset: ISO_8601.Timezone.Offset(seconds: 0)
         )
 
         let rfc3339 = RFC_3339.DateTime(iso8601)
 
-        #expect(rfc3339.time == iso8601.time)
+        #expect(
+            rfc3339.time
+                == (try Gregorian.DateTime(
+                    year: 2024,
+                    month: 1,
+                    day: 15,
+                    hour: 12,
+                    minute: 30,
+                    second: 45,
+                    millisecond: 123,
+                    microsecond: 456,
+                    nanosecond: 789
+                ))
+        )
         #expect(rfc3339.offset == .utc)
     }
 
@@ -73,7 +97,7 @@ struct `RFC 3339 Conversion Tests` {
             minute: 30,
             second: 0,
             nanoseconds: 0,
-            timezoneOffsetSeconds: -18000
+            offset: ISO_8601.Timezone.Offset(seconds: -18000)
         )
 
         let rfc3339 = RFC_3339.DateTime(iso8601)
@@ -83,7 +107,7 @@ struct `RFC 3339 Conversion Tests` {
 
     @Test
     func `round Trip RFC3339 To ISO8601`() throws {
-        let time = try Time(
+        let time = try Gregorian.DateTime(
             year: 2024,
             month: 1,
             day: 15,
@@ -97,7 +121,7 @@ struct `RFC 3339 Conversion Tests` {
         let offset = try RFC_3339.Offset(seconds: 3600)
         let original = RFC_3339.DateTime(time: time, offset: offset)
 
-        let iso8601 = ISO_8601.DateTime(original)
+        let iso8601 = try ISO_8601.DateTime(original)
         let restored = RFC_3339.DateTime(iso8601)
 
         #expect(restored.time == original.time)
@@ -106,7 +130,7 @@ struct `RFC 3339 Conversion Tests` {
 
     @Test
     func `convert RFC3339 To RFC5322`() throws {
-        let time = try Time(year: 2024, month: 1, day: 15, hour: 12, minute: 30, second: 45)
+        let time = try Gregorian.DateTime(year: 2024, month: 1, day: 15, hour: 12, minute: 30, second: 45)
         let rfc3339 = RFC_3339.DateTime(time: time, offset: .utc)
 
         let rfc5322 = RFC_5322.DateTime(rfc3339)
@@ -117,7 +141,7 @@ struct `RFC 3339 Conversion Tests` {
 
     @Test
     func `convert RFC3339 To RFC5322 Loses Sub Second Precision`() throws {
-        let time = try Time(
+        let time = try Gregorian.DateTime(
             year: 2024,
             month: 1,
             day: 15,
@@ -177,10 +201,10 @@ struct `RFC 3339 Conversion Tests` {
 
     @Test
     func `three Way Conversion Preserves Instant`() throws {
-        let time = try Time(year: 2024, month: 6, day: 15, hour: 14, minute: 30, second: 0)
+        let time = try Gregorian.DateTime(year: 2024, month: 6, day: 15, hour: 14, minute: 30, second: 0)
         let rfc3339 = RFC_3339.DateTime(time: time, offset: .utc)
 
-        let iso8601 = ISO_8601.DateTime(rfc3339)
+        let iso8601 = try ISO_8601.DateTime(rfc3339)
         let rfc5322 = RFC_5322.DateTime(iso8601)
 
         #expect(rfc5322.secondsSinceEpoch == time.secondsSinceEpoch)
@@ -188,11 +212,11 @@ struct `RFC 3339 Conversion Tests` {
 
     @Test
     func `unknown Local Offset Handling`() throws {
-        let time = try Time(year: 2024, month: 1, day: 15, hour: 12, minute: 0, second: 0)
+        let time = try Gregorian.DateTime(year: 2024, month: 1, day: 15, hour: 12, minute: 0, second: 0)
         let rfc3339 = RFC_3339.DateTime(time: time, offset: .unknownLocalOffset)
 
-        let iso8601 = ISO_8601.DateTime(rfc3339)
-        #expect(iso8601.timezone.offsetSeconds == 0)
+        let iso8601 = try ISO_8601.DateTime(rfc3339)
+        #expect(iso8601.offset.seconds == 0)
 
         let rfc5322 = RFC_5322.DateTime(rfc3339)
         #expect(rfc5322.timezoneOffsetSeconds == 0)

@@ -1,128 +1,88 @@
 public import ISO_8601
-@_spi(Internal) import Time
+import Time
 
 extension ISO_8601.DateTime {
 
-    public func adding(_ duration: ISO_8601.Duration) -> ISO_8601.DateTime {
+    public func adding(_ duration: ISO_8601.Duration) throws(ISO_8601.DateTime.Error) -> ISO_8601.DateTime {
+        try shifted(
+            months: Int128(duration.years) * 12 + Int128(duration.months),
+            seconds: Int128(duration.days) * 86_400
+                + Int128(duration.hours) * 3_600
+                + Int128(duration.minutes) * 60
+                + Int128(duration.seconds),
+            nanoseconds: Int128(duration.nanoseconds)
+        )
+    }
 
-        var year = time.year.rawValue + duration.years
+    public func subtracting(_ duration: ISO_8601.Duration) throws(ISO_8601.DateTime.Error) -> ISO_8601.DateTime {
+        try shifted(
+            months: -(Int128(duration.years) * 12 + Int128(duration.months)),
+            seconds: -(Int128(duration.days) * 86_400
+                + Int128(duration.hours) * 3_600
+                + Int128(duration.minutes) * 60
+                + Int128(duration.seconds)),
+            nanoseconds: -Int128(duration.nanoseconds)
+        )
+    }
 
-        var month = time.month.rawValue + duration.months
-
-        while month > 12 {
-            month -= 12
-            year += 1
+    private func shifted(
+        months: Int128,
+        seconds: Int128,
+        nanoseconds: Int128
+    ) throws(ISO_8601.DateTime.Error) -> ISO_8601.DateTime {
+        let monthIndex = Int128(date.year) * 12 + Int128(date.month - 1) + months
+        let shiftedYear = monthIndex >= 0 ? monthIndex / 12 : (monthIndex - 11) / 12
+        guard let year = Int(exactly: shiftedYear) else {
+            throw .date(.yearOutOfRange(Int(clamping: shiftedYear)))
         }
-        while month < 1 {
-            month += 12
-            year -= 1
-        }
+        let month = Int(monthIndex - shiftedYear * 12) + 1
+        let day = min(date.day, ISO_8601.CalendarDate.numberOfDays(inMonth: month, year: year))
 
-        let maxDay = Time.Month(unchecked: month).days(in: Time.Year(year))
-
-        let day = min(time.day.rawValue, maxDay)
-
-        let additionalSeconds =
-            duration.days * 86400
-            + duration.hours * 3600
-            + duration.minutes * 60
-            + duration.seconds
-
-        let adjustedTime = Time(
-            _unchecked: (),
+        let anchor = try ISO_8601.DateTime(
             year: year,
             month: month,
             day: day,
-            hour: time.hour.value,
-            minute: time.minute.value,
-            second: time.second.value,
-            millisecond: time.millisecond.value,
-            microsecond: time.microsecond.value,
-            nanosecond: time.nanosecond.value
+            hour: hour,
+            minute: minute,
+            second: second,
+            nanoseconds: self.nanoseconds,
+            offset: offset
         )
 
-        let newSeconds = adjustedTime.secondsSinceEpoch + additionalSeconds
-        var newNanoseconds = time.totalNanoseconds + duration.nanoseconds
-
-        var secondsAdjustment = 0
-        while newNanoseconds >= 1_000_000_000 {
-            newNanoseconds -= 1_000_000_000
-            secondsAdjustment += 1
+        let perSecond: Int128 = 1_000_000_000
+        let total =
+            Int128(anchor.instant.secondsSinceUnixEpoch) * perSecond
+            + Int128(anchor.instant.nanosecondFraction)
+            + seconds * perSecond
+            + nanoseconds
+        let fraction = (total % perSecond + perSecond) % perSecond
+        let wholeSeconds = (total - fraction) / perSecond
+        guard let secondsSinceUnixEpoch = Int64(exactly: wholeSeconds) else {
+            throw .date(.daysSinceUnixEpochOutOfRange(Int(clamping: wholeSeconds / 86_400)))
         }
-        while newNanoseconds < 0 {
-            newNanoseconds += 1_000_000_000
-            secondsAdjustment -= 1
-        }
-
-        let finalTime = Time(
+        let instant = Time::Time.Instant(
             _unchecked: (),
-            secondsSinceEpoch: newSeconds + secondsAdjustment,
-            nanoseconds: newNanoseconds
+            secondsSinceUnixEpoch: secondsSinceUnixEpoch,
+            nanosecondFraction: Int32(fraction)
         )
 
-        return ISO_8601.DateTime(time: finalTime, timezoneOffset: timezoneOffset)
-    }
-
-    public func subtracting(_ duration: ISO_8601.Duration) -> ISO_8601.DateTime {
-
-        let negated: ISO_8601.Duration
-        do throws(ISO_8601.Date.Error) {
-            negated = try ISO_8601.Duration(
-                years: -duration.years,
-                months: -duration.months,
-                days: -duration.days,
-                hours: -duration.hours,
-                minutes: -duration.minutes,
-                seconds: -duration.seconds,
-                nanoseconds: 0
-            )
-        } catch {
-            preconditionFailure("Negating valid duration components should never fail: \(error)")
-        }
-
-        var result = adding(negated)
-
-        if duration.nanoseconds > 0 {
-            let newNanos = result.time.totalNanoseconds - duration.nanoseconds
-            if newNanos < 0 {
-
-                let adjustedSeconds = result.time.secondsSinceEpoch - 1
-                let adjustedNanos = newNanos + 1_000_000_000
-                let adjustedTime = Time(
-                    _unchecked: (),
-                    secondsSinceEpoch: adjustedSeconds,
-                    nanoseconds: adjustedNanos
-                )
-                result = ISO_8601.DateTime(time: adjustedTime, timezoneOffset: timezoneOffset)
-            } else {
-                let adjustedTime = Time(
-                    _unchecked: (),
-                    secondsSinceEpoch: result.time.secondsSinceEpoch,
-                    nanoseconds: newNanos
-                )
-                result = ISO_8601.DateTime(time: adjustedTime, timezoneOffset: timezoneOffset)
-            }
-        }
-
-        return result
+        return try ISO_8601.DateTime(instant, offset: offset)
     }
 }
 
 extension ISO_8601.DateTime {
 
-    public static func + (lhs: ISO_8601.DateTime, rhs: ISO_8601.Duration) -> ISO_8601.DateTime {
-        lhs.adding(rhs)
+    public static func + (
+        lhs: ISO_8601.DateTime,
+        rhs: ISO_8601.Duration
+    ) throws(ISO_8601.DateTime.Error) -> ISO_8601.DateTime {
+        try lhs.adding(rhs)
     }
 
-    public static func - (lhs: ISO_8601.DateTime, rhs: ISO_8601.Duration) -> ISO_8601.DateTime {
-        lhs.subtracting(rhs)
-    }
-}
-
-extension Time.Month {
-
-    internal init(unchecked value: Int) {
-
-        self = Time.Month(rawValue: value)!
+    public static func - (
+        lhs: ISO_8601.DateTime,
+        rhs: ISO_8601.Duration
+    ) throws(ISO_8601.DateTime.Error) -> ISO_8601.DateTime {
+        try lhs.subtracting(rhs)
     }
 }

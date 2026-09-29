@@ -19,12 +19,14 @@ let package = Package(
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-time.git",
+            url: "https://github.com/swift-atoms/swift-time.git",
             branch: "main"
         ),
         .package(url: "https://github.com/swift-iso/swift-iso-8601.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-5322.git", branch: "main"),
         .package(url: "https://github.com/swift-ietf/swift-rfc-3339.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-calendar.git", branch: "main"),
+        .package(url: "https://github.com/swift-molecules/swift-calendar-gregorian.git", branch: "main"),
     ],
     targets: [
         .target(
@@ -35,6 +37,8 @@ let package = Package(
                 .product(name: "ISO 8601", package: "swift-iso-8601"),
                 .product(name: "RFC 5322", package: "swift-rfc-5322"),
                 .product(name: "RFC 3339", package: "swift-rfc-3339"),
+                .product(name: "Calendar", package: "swift-calendar"),
+                .product(name: "Calendar Gregorian", package: "swift-calendar-gregorian"),
             ]
         ),
         .testTarget(

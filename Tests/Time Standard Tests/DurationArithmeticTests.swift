@@ -93,10 +93,10 @@ struct `Duration Arithmetic Tests` {
         )
         let duration = try ISO_8601.Duration(hours: 2, minutes: 30)
 
-        let result = dateTime + duration
+        let result = try dateTime + duration
 
-        #expect(result.time.hour.value == 13)
-        #expect(result.time.minute.value == 0)
+        #expect(result.hour == 13)
+        #expect(result.minute == 0)
     }
 
     @Test
@@ -111,13 +111,13 @@ struct `Duration Arithmetic Tests` {
         )
         let duration = try ISO_8601.Duration(days: 20)
 
-        let result = dateTime + duration
+        let result = try dateTime + duration
 
-        #expect(result.time.year.rawValue == 2024)
+        #expect(result.date.year == 2024)
 
-        #expect(result.time.month.rawValue == 2)
+        #expect(result.date.month == 2)
 
-        #expect(result.time.day.rawValue == 4)
+        #expect(result.date.day == 4)
     }
 
     @Test
@@ -132,13 +132,13 @@ struct `Duration Arithmetic Tests` {
         )
         let duration = try ISO_8601.Duration(months: 3)
 
-        let result = dateTime + duration
+        let result = try dateTime + duration
 
-        #expect(result.time.year.rawValue == 2024)
+        #expect(result.date.year == 2024)
 
-        #expect(result.time.month.rawValue == 4)
+        #expect(result.date.month == 4)
 
-        #expect(result.time.day.rawValue == 15)
+        #expect(result.date.day == 15)
     }
 
     @Test
@@ -154,13 +154,13 @@ struct `Duration Arithmetic Tests` {
         )
         let duration = try ISO_8601.Duration(months: 1)
 
-        let result = dateTime + duration
+        let result = try dateTime + duration
 
-        #expect(result.time.year.rawValue == 2024)
+        #expect(result.date.year == 2024)
 
-        #expect(result.time.month.rawValue == 2)
+        #expect(result.date.month == 2)
 
-        #expect(result.time.day.rawValue == 29)
+        #expect(result.date.day == 29)
     }
 
     @Test
@@ -175,13 +175,13 @@ struct `Duration Arithmetic Tests` {
         )
         let duration = try ISO_8601.Duration(years: 2)
 
-        let result = dateTime + duration
+        let result = try dateTime + duration
 
-        #expect(result.time.year.rawValue == 2026)
+        #expect(result.date.year == 2026)
 
-        #expect(result.time.month.rawValue == 6)
+        #expect(result.date.month == 6)
 
-        #expect(result.time.day.rawValue == 15)
+        #expect(result.date.day == 15)
     }
 
     @Test
@@ -196,10 +196,10 @@ struct `Duration Arithmetic Tests` {
         )
         let duration = try ISO_8601.Duration(hours: 2, minutes: 30)
 
-        let result = dateTime - duration
+        let result = try dateTime - duration
 
-        #expect(result.time.hour.value == 8)
-        #expect(result.time.minute.value == 0)
+        #expect(result.hour == 8)
+        #expect(result.minute == 0)
     }
 
     @Test
@@ -214,13 +214,13 @@ struct `Duration Arithmetic Tests` {
         )
         let duration = try ISO_8601.Duration(days: 20)
 
-        let result = dateTime - duration
+        let result = try dateTime - duration
 
-        #expect(result.time.year.rawValue == 2024)
+        #expect(result.date.year == 2024)
 
-        #expect(result.time.month.rawValue == 1)
+        #expect(result.date.month == 1)
 
-        #expect(result.time.day.rawValue == 15)
+        #expect(result.date.day == 15)
     }
 
     @Test
@@ -235,13 +235,13 @@ struct `Duration Arithmetic Tests` {
         )
         let duration = try ISO_8601.Duration(months: 3)
 
-        let result = dateTime - duration
+        let result = try dateTime - duration
 
-        #expect(result.time.year.rawValue == 2024)
+        #expect(result.date.year == 2024)
 
-        #expect(result.time.month.rawValue == 1)
+        #expect(result.date.month == 1)
 
-        #expect(result.time.day.rawValue == 15)
+        #expect(result.date.day == 15)
     }
 
     @Test
@@ -254,12 +254,22 @@ struct `Duration Arithmetic Tests` {
             minute: 0,
             second: 0,
             nanoseconds: 0,
-            timezoneOffsetSeconds: 3600
+            offset: ISO_8601.Timezone.Offset(seconds: 3600)
         )
         let duration = try ISO_8601.Duration(hours: 1)
 
-        let result = dateTime + duration
+        let result = try dateTime + duration
 
-        #expect(result.timezone.offsetSeconds == 3600)
+        #expect(result.offset.seconds == 3600)
+    }
+
+    @Test
+    func `add Years Beyond ISO8601 Range Throws`() throws {
+        let dateTime = try ISO_8601.DateTime(year: 9999, month: 6, day: 15)
+        let duration = try ISO_8601.Duration(years: 1)
+
+        #expect(throws: ISO_8601.DateTime.Error.date(.yearOutOfRange(10000))) {
+            try dateTime + duration
+        }
     }
 }

@@ -1,14 +1,15 @@
 public import RFC_3339
 public import RFC_5322
+import Calendar
+import Calendar_Gregorian
 import Time
 
 extension RFC_5322.DateTime {
 
     public init(_ rfc3339: RFC_3339.DateTime) {
-
         self.init(
-            time: Time(secondsSinceEpoch: rfc3339.time.secondsSinceEpoch),
-            timezoneOffset: Time.Timezone.Offset(seconds: rfc3339.offset.seconds)
+            secondsSinceEpoch: Int(Time.Instant(rfc3339).secondsSinceUnixEpoch),
+            timezoneOffsetSeconds: rfc3339.offset.seconds
         )
     }
 }
@@ -28,6 +29,9 @@ extension RFC_3339.DateTime {
             }
         }
 
-        self.init(time: rfc5322.time, offset: offset)
+        self.init(
+            time: Gregorian.DateTime(secondsSinceEpoch: rfc5322.secondsSinceEpoch + offset.seconds),
+            offset: offset
+        )
     }
 }
