@@ -9,7 +9,10 @@ extension ISO_8601.Duration {
             return nil
         }
 
-        let totalSeconds = days * 86400 + hours * 3600 + minutes * 60 + seconds
+        let total = Int128(days) * 86400 + Int128(hours) * 3600 + Int128(minutes) * 60 + Int128(seconds)
+        guard let totalSeconds = Int(exactly: total) else {
+            return nil
+        }
         return .seconds(totalSeconds) + .nanoseconds(nanoseconds)
     }
 
