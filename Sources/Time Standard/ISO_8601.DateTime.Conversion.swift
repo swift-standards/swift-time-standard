@@ -7,7 +7,7 @@ extension ISO_8601.DateTime {
 
 extension ISO_8601.DateTime.Conversion {
 
-    public enum Error: Swift.Error, Sendable, Equatable {
+    public enum Error: Swift::Error, Sendable, Equatable {
 
         case offset(ISO_8601.Timezone.Offset.Error)
 
