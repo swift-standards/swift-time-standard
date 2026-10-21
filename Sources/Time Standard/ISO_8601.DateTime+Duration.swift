@@ -17,7 +17,8 @@ extension ISO_8601.DateTime {
     public func subtracting(_ duration: ISO_8601.Duration) throws(ISO_8601.DateTime.Error) -> ISO_8601.DateTime {
         try shifted(
             months: -(Int128(duration.years) * 12 + Int128(duration.months)),
-            seconds: -(Int128(duration.days) * 86_400
+            seconds:
+                -(Int128(duration.days) * 86_400
                 + Int128(duration.hours) * 3_600
                 + Int128(duration.minutes) * 60
                 + Int128(duration.seconds)),
