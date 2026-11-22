@@ -16,7 +16,7 @@ extension `DurationArithmetic Tests` {
         @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
         @Test
         func `convert Time Only Duration To Swift`() throws {
-            let duration = try ISO_8601.Duration(hours: 2, minutes: 30, seconds: 45)
+            let duration = try ISO.`8601`.Duration(hours: 2, minutes: 30, seconds: 45)
             let swiftDuration = duration.swiftDuration
 
             #expect(swiftDuration != nil)
@@ -27,7 +27,7 @@ extension `DurationArithmetic Tests` {
         @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
         @Test
         func `convert Duration With Days To Swift`() throws {
-            let duration = try ISO_8601.Duration(days: 1, hours: 12)
+            let duration = try ISO.`8601`.Duration(days: 1, hours: 12)
             let swiftDuration = duration.swiftDuration
 
             #expect(swiftDuration != nil)
@@ -38,7 +38,7 @@ extension `DurationArithmetic Tests` {
         @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
         @Test
         func `convert Duration With Nanoseconds To Swift`() throws {
-            let duration = try ISO_8601.Duration(seconds: 1, nanoseconds: 500_000_000)
+            let duration = try ISO.`8601`.Duration(seconds: 1, nanoseconds: 500_000_000)
             let swiftDuration = duration.swiftDuration
 
             #expect(swiftDuration != nil)
@@ -49,14 +49,14 @@ extension `DurationArithmetic Tests` {
         @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
         @Test
         func `duration With Years Returns Nil`() throws {
-            let duration = try ISO_8601.Duration(years: 1, days: 5)
+            let duration = try ISO.`8601`.Duration(years: 1, days: 5)
             #expect(duration.swiftDuration == nil)
         }
 
         @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
         @Test
         func `duration With Months Returns Nil`() throws {
-            let duration = try ISO_8601.Duration(months: 6, hours: 12)
+            let duration = try ISO.`8601`.Duration(months: 6, hours: 12)
             #expect(duration.swiftDuration == nil)
         }
 
@@ -64,7 +64,7 @@ extension `DurationArithmetic Tests` {
         @Test
         func `convert Swift Duration To ISO8601`() throws {
             let swiftDuration = Duration.seconds(3661)
-            let iso8601 = try ISO_8601.Duration(swiftDuration)
+            let iso8601 = try ISO.`8601`.Duration(swiftDuration)
 
             #expect(iso8601.years == 0)
             #expect(iso8601.months == 0)
@@ -78,7 +78,7 @@ extension `DurationArithmetic Tests` {
         @Test
         func `convert Swift Duration With Nanoseconds`() throws {
             let swiftDuration = Duration.seconds(1) + Duration.nanoseconds(123_456_789)
-            let iso8601 = try ISO_8601.Duration(swiftDuration)
+            let iso8601 = try ISO.`8601`.Duration(swiftDuration)
 
             #expect(iso8601.seconds == 1)
             #expect(iso8601.nanoseconds == 123_456_789)
@@ -86,7 +86,7 @@ extension `DurationArithmetic Tests` {
 
         @Test
         func `add Time Only Duration`() throws {
-            let dateTime = try ISO_8601.DateTime(
+            let dateTime = try ISO.`8601`.DateTime(
                 year: 2024,
                 month: 1,
                 day: 15,
@@ -94,7 +94,7 @@ extension `DurationArithmetic Tests` {
                 minute: 30,
                 second: 0
             )
-            let duration = try ISO_8601.Duration(hours: 2, minutes: 30)
+            let duration = try ISO.`8601`.Duration(hours: 2, minutes: 30)
 
             let result = try dateTime + duration
 
@@ -104,7 +104,7 @@ extension `DurationArithmetic Tests` {
 
         @Test
         func `add Days Duration`() throws {
-            let dateTime = try ISO_8601.DateTime(
+            let dateTime = try ISO.`8601`.DateTime(
                 year: 2024,
                 month: 1,
                 day: 15,
@@ -112,7 +112,7 @@ extension `DurationArithmetic Tests` {
                 minute: 0,
                 second: 0
             )
-            let duration = try ISO_8601.Duration(days: 20)
+            let duration = try ISO.`8601`.Duration(days: 20)
 
             let result = try dateTime + duration
 
@@ -125,7 +125,7 @@ extension `DurationArithmetic Tests` {
 
         @Test
         func `add Months Duration`() throws {
-            let dateTime = try ISO_8601.DateTime(
+            let dateTime = try ISO.`8601`.DateTime(
                 year: 2024,
                 month: 1,
                 day: 15,
@@ -133,7 +133,7 @@ extension `DurationArithmetic Tests` {
                 minute: 0,
                 second: 0
             )
-            let duration = try ISO_8601.Duration(months: 3)
+            let duration = try ISO.`8601`.Duration(months: 3)
 
             let result = try dateTime + duration
 
@@ -147,7 +147,7 @@ extension `DurationArithmetic Tests` {
         @Test
         func `add Months With Day Clamping`() throws {
 
-            let dateTime = try ISO_8601.DateTime(
+            let dateTime = try ISO.`8601`.DateTime(
                 year: 2024,
                 month: 1,
                 day: 31,
@@ -155,7 +155,7 @@ extension `DurationArithmetic Tests` {
                 minute: 0,
                 second: 0
             )
-            let duration = try ISO_8601.Duration(months: 1)
+            let duration = try ISO.`8601`.Duration(months: 1)
 
             let result = try dateTime + duration
 
@@ -168,7 +168,7 @@ extension `DurationArithmetic Tests` {
 
         @Test
         func `add Years Duration`() throws {
-            let dateTime = try ISO_8601.DateTime(
+            let dateTime = try ISO.`8601`.DateTime(
                 year: 2024,
                 month: 6,
                 day: 15,
@@ -176,7 +176,7 @@ extension `DurationArithmetic Tests` {
                 minute: 0,
                 second: 0
             )
-            let duration = try ISO_8601.Duration(years: 2)
+            let duration = try ISO.`8601`.Duration(years: 2)
 
             let result = try dateTime + duration
 
@@ -189,7 +189,7 @@ extension `DurationArithmetic Tests` {
 
         @Test
         func `subtract Time Duration`() throws {
-            let dateTime = try ISO_8601.DateTime(
+            let dateTime = try ISO.`8601`.DateTime(
                 year: 2024,
                 month: 1,
                 day: 15,
@@ -197,7 +197,7 @@ extension `DurationArithmetic Tests` {
                 minute: 30,
                 second: 0
             )
-            let duration = try ISO_8601.Duration(hours: 2, minutes: 30)
+            let duration = try ISO.`8601`.Duration(hours: 2, minutes: 30)
 
             let result = try dateTime - duration
 
@@ -207,7 +207,7 @@ extension `DurationArithmetic Tests` {
 
         @Test
         func `subtract Days Duration`() throws {
-            let dateTime = try ISO_8601.DateTime(
+            let dateTime = try ISO.`8601`.DateTime(
                 year: 2024,
                 month: 2,
                 day: 4,
@@ -215,7 +215,7 @@ extension `DurationArithmetic Tests` {
                 minute: 0,
                 second: 0
             )
-            let duration = try ISO_8601.Duration(days: 20)
+            let duration = try ISO.`8601`.Duration(days: 20)
 
             let result = try dateTime - duration
 
@@ -228,7 +228,7 @@ extension `DurationArithmetic Tests` {
 
         @Test
         func `subtract Months Duration`() throws {
-            let dateTime = try ISO_8601.DateTime(
+            let dateTime = try ISO.`8601`.DateTime(
                 year: 2024,
                 month: 4,
                 day: 15,
@@ -236,7 +236,7 @@ extension `DurationArithmetic Tests` {
                 minute: 0,
                 second: 0
             )
-            let duration = try ISO_8601.Duration(months: 3)
+            let duration = try ISO.`8601`.Duration(months: 3)
 
             let result = try dateTime - duration
 
@@ -249,7 +249,7 @@ extension `DurationArithmetic Tests` {
 
         @Test
         func `preserves Timezone Offset`() throws {
-            let dateTime = try ISO_8601.DateTime(
+            let dateTime = try ISO.`8601`.DateTime(
                 year: 2024,
                 month: 1,
                 day: 15,
@@ -257,9 +257,9 @@ extension `DurationArithmetic Tests` {
                 minute: 0,
                 second: 0,
                 nanoseconds: 0,
-                offset: ISO_8601.Timezone.Offset(seconds: 3600)
+                offset: ISO.`8601`.Timezone.Offset(seconds: 3600)
             )
-            let duration = try ISO_8601.Duration(hours: 1)
+            let duration = try ISO.`8601`.Duration(hours: 1)
 
             let result = try dateTime + duration
 
@@ -268,10 +268,10 @@ extension `DurationArithmetic Tests` {
 
         @Test
         func `add Years Beyond ISO8601 Range Throws`() throws {
-            let dateTime = try ISO_8601.DateTime(year: 9999, month: 6, day: 15)
-            let duration = try ISO_8601.Duration(years: 1)
+            let dateTime = try ISO.`8601`.DateTime(year: 9999, month: 6, day: 15)
+            let duration = try ISO.`8601`.Duration(years: 1)
 
-            #expect(throws: ISO_8601.DateTime.Error.date(.yearOutOfRange(10000))) {
+            #expect(throws: ISO.`8601`.DateTime.Error.date(.yearOutOfRange(10000))) {
                 try dateTime + duration
             }
         }

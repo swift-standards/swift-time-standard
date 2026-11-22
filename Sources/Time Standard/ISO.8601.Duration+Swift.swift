@@ -1,7 +1,7 @@
 public import ISO_8601
 
 @available(macOS 13.0, iOS 16.0, tvOS 16.0, watchOS 9.0, *)
-extension ISO_8601.Duration {
+extension ISO.`8601`.Duration {
 
     public var swiftDuration: Swift::Duration? {
 
@@ -16,7 +16,7 @@ extension ISO_8601.Duration {
         return .seconds(totalSeconds) + .nanoseconds(nanoseconds)
     }
 
-    public init(_ duration: Swift::Duration) throws(ISO_8601.Duration.Error) {
+    public init(_ duration: Swift::Duration) throws(ISO.`8601`.Duration.Error) {
         let (seconds, attoseconds) = duration.components
         let nanoseconds = Int(attoseconds / 1_000_000_000)
 

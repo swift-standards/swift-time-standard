@@ -1,9 +1,9 @@
 public import ISO_8601
 import Time
 
-extension ISO_8601.DateTime {
+extension ISO.`8601`.DateTime {
 
-    public func adding(_ duration: ISO_8601.Duration) throws(ISO_8601.DateTime.Error) -> ISO_8601.DateTime {
+    public func adding(_ duration: ISO.`8601`.Duration) throws(ISO.`8601`.DateTime.Error) -> ISO.`8601`.DateTime {
         try shifted(
             months: Int128(duration.years) * 12 + Int128(duration.months),
             seconds: Int128(duration.days) * 86_400
@@ -14,7 +14,7 @@ extension ISO_8601.DateTime {
         )
     }
 
-    public func subtracting(_ duration: ISO_8601.Duration) throws(ISO_8601.DateTime.Error) -> ISO_8601.DateTime {
+    public func subtracting(_ duration: ISO.`8601`.Duration) throws(ISO.`8601`.DateTime.Error) -> ISO.`8601`.DateTime {
         try shifted(
             months: -(Int128(duration.years) * 12 + Int128(duration.months)),
             seconds:
@@ -30,16 +30,16 @@ extension ISO_8601.DateTime {
         months: Int128,
         seconds: Int128,
         nanoseconds: Int128
-    ) throws(ISO_8601.DateTime.Error) -> ISO_8601.DateTime {
+    ) throws(ISO.`8601`.DateTime.Error) -> ISO.`8601`.DateTime {
         let monthIndex = Int128(date.year) * 12 + Int128(date.month - 1) + months
         let shiftedYear = monthIndex >= 0 ? monthIndex / 12 : (monthIndex - 11) / 12
         guard let year = Int(exactly: shiftedYear) else {
             throw .date(.yearOutOfRange(Int(clamping: shiftedYear)))
         }
         let month = Int(monthIndex - shiftedYear * 12) + 1
-        let day = min(date.day, ISO_8601.CalendarDate.numberOfDays(inMonth: month, year: year))
+        let day = min(date.day, ISO.`8601`.CalendarDate.numberOfDays(inMonth: month, year: year))
 
-        let anchor = try ISO_8601.DateTime(
+        let anchor = try ISO.`8601`.DateTime(
             year: year,
             month: month,
             day: day,
@@ -67,23 +67,23 @@ extension ISO_8601.DateTime {
             nanosecondFraction: Int32(fraction)
         )
 
-        return try ISO_8601.DateTime(instant, offset: offset)
+        return try ISO.`8601`.DateTime(instant, offset: offset)
     }
 }
 
-extension ISO_8601.DateTime {
+extension ISO.`8601`.DateTime {
 
     public static func + (
-        lhs: ISO_8601.DateTime,
-        rhs: ISO_8601.Duration
-    ) throws(ISO_8601.DateTime.Error) -> ISO_8601.DateTime {
+        lhs: ISO.`8601`.DateTime,
+        rhs: ISO.`8601`.Duration
+    ) throws(ISO.`8601`.DateTime.Error) -> ISO.`8601`.DateTime {
         try lhs.adding(rhs)
     }
 
     public static func - (
-        lhs: ISO_8601.DateTime,
-        rhs: ISO_8601.Duration
-    ) throws(ISO_8601.DateTime.Error) -> ISO_8601.DateTime {
+        lhs: ISO.`8601`.DateTime,
+        rhs: ISO.`8601`.Duration
+    ) throws(ISO.`8601`.DateTime.Error) -> ISO.`8601`.DateTime {
         try lhs.subtracting(rhs)
     }
 }
