@@ -4,7 +4,7 @@ import Time
 
 extension ISO.`8601`.DateTime {
 
-    public init(_ rfc5322: RFC_5322.DateTime) throws(ISO.`8601`.DateTime.Conversion.Error) {
+    public init(_ rfc5322: IETF.RFC.`5322`.DateTime) throws(ISO.`8601`.DateTime.Conversion.Error) {
         let instant = Time::Time.Instant(secondsSinceUnixEpoch: Int64(rfc5322.secondsSinceEpoch))
         let offset: ISO.`8601`.Timezone.Offset
         do throws(ISO.`8601`.Timezone.Offset.Error) {
@@ -20,7 +20,7 @@ extension ISO.`8601`.DateTime {
     }
 }
 
-extension RFC_5322.DateTime {
+extension IETF.RFC.`5322`.DateTime {
 
     public init(_ iso8601: ISO.`8601`.DateTime) {
         self.init(

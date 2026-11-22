@@ -4,9 +4,9 @@ public import RFC_3339
 public import RFC_5322
 import Time
 
-extension RFC_5322.DateTime {
+extension IETF.RFC.`5322`.DateTime {
 
-    public init(_ rfc3339: RFC_3339.DateTime) {
+    public init(_ rfc3339: IETF.RFC.`3339`.DateTime) {
         self.init(
             secondsSinceEpoch: Int(Time.Instant(rfc3339).secondsSinceUnixEpoch),
             timezoneOffsetSeconds: rfc3339.offset.seconds
@@ -14,16 +14,16 @@ extension RFC_5322.DateTime {
     }
 }
 
-extension RFC_3339.DateTime {
+extension IETF.RFC.`3339`.DateTime {
 
-    public init(_ rfc5322: RFC_5322.DateTime) {
-        let offset: RFC_3339.Offset
+    public init(_ rfc5322: IETF.RFC.`5322`.DateTime) {
+        let offset: IETF.RFC.`3339`.Offset
         if rfc5322.timezoneOffsetSeconds == 0 {
             offset = .utc
         } else {
 
-            do throws(RFC_3339.Offset.Error) {
-                offset = try RFC_3339.Offset(seconds: rfc5322.timezoneOffsetSeconds)
+            do throws(IETF.RFC.`3339`.Offset.Error) {
+                offset = try IETF.RFC.`3339`.Offset(seconds: rfc5322.timezoneOffsetSeconds)
             } catch {
                 offset = .utc
             }

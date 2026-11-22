@@ -6,7 +6,7 @@ import Time
 
 extension ISO.`8601`.DateTime {
 
-    public init(_ rfc3339: RFC_3339.DateTime) throws(ISO.`8601`.DateTime.Conversion.Error) {
+    public init(_ rfc3339: IETF.RFC.`3339`.DateTime) throws(ISO.`8601`.DateTime.Conversion.Error) {
         let offset: ISO.`8601`.Timezone.Offset
         do throws(ISO.`8601`.Timezone.Offset.Error) {
             offset = try ISO.`8601`.Timezone.Offset(seconds: rfc3339.offset.seconds)
@@ -21,16 +21,16 @@ extension ISO.`8601`.DateTime {
     }
 }
 
-extension RFC_3339.DateTime {
+extension IETF.RFC.`3339`.DateTime {
 
     public init(_ iso8601: ISO.`8601`.DateTime) {
-        let offset: RFC_3339.Offset
+        let offset: IETF.RFC.`3339`.Offset
         if iso8601.offset.seconds == 0 {
             offset = .utc
         } else {
 
-            do throws(RFC_3339.Offset.Error) {
-                offset = try RFC_3339.Offset(seconds: iso8601.offset.seconds)
+            do throws(IETF.RFC.`3339`.Offset.Error) {
+                offset = try IETF.RFC.`3339`.Offset(seconds: iso8601.offset.seconds)
             } catch {
                 offset = .utc
             }

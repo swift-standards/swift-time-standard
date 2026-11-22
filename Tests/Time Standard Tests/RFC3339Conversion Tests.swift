@@ -28,7 +28,7 @@ extension `RFC3339Conversion Tests` {
                 microsecond: 456,
                 nanosecond: 789
             )
-            let rfc3339 = RFC_3339.DateTime(time: time, offset: .utc)
+            let rfc3339 = IETF.RFC.`3339`.DateTime(time: time, offset: .utc)
 
             let iso8601 = try ISO.`8601`.DateTime(rfc3339)
 
@@ -50,8 +50,8 @@ extension `RFC3339Conversion Tests` {
         @Test
         func `convert RFC3339 With Timezone To ISO8601`() throws {
             let time = try Gregorian.DateTime(year: 2024, month: 1, day: 15, hour: 12, minute: 30, second: 0)
-            let offset = try RFC_3339.Offset(seconds: 19800)
-            let rfc3339 = RFC_3339.DateTime(time: time, offset: offset)
+            let offset = try IETF.RFC.`3339`.Offset(seconds: 19800)
+            let rfc3339 = IETF.RFC.`3339`.DateTime(time: time, offset: offset)
 
             let iso8601 = try ISO.`8601`.DateTime(rfc3339)
 
@@ -71,7 +71,7 @@ extension `RFC3339Conversion Tests` {
                 offset: ISO.`8601`.Timezone.Offset(seconds: 0)
             )
 
-            let rfc3339 = RFC_3339.DateTime(iso8601)
+            let rfc3339 = IETF.RFC.`3339`.DateTime(iso8601)
 
             #expect(
                 rfc3339.time
@@ -103,7 +103,7 @@ extension `RFC3339Conversion Tests` {
                 offset: ISO.`8601`.Timezone.Offset(seconds: -18000)
             )
 
-            let rfc3339 = RFC_3339.DateTime(iso8601)
+            let rfc3339 = IETF.RFC.`3339`.DateTime(iso8601)
 
             #expect(rfc3339.offset.seconds == -18000)
         }
@@ -121,11 +121,11 @@ extension `RFC3339Conversion Tests` {
                 microsecond: 0,
                 nanosecond: 0
             )
-            let offset = try RFC_3339.Offset(seconds: 3600)
-            let original = RFC_3339.DateTime(time: time, offset: offset)
+            let offset = try IETF.RFC.`3339`.Offset(seconds: 3600)
+            let original = IETF.RFC.`3339`.DateTime(time: time, offset: offset)
 
             let iso8601 = try ISO.`8601`.DateTime(original)
-            let restored = RFC_3339.DateTime(iso8601)
+            let restored = IETF.RFC.`3339`.DateTime(iso8601)
 
             #expect(restored.time == original.time)
             #expect(restored.offset.seconds == original.offset.seconds)
@@ -134,9 +134,9 @@ extension `RFC3339Conversion Tests` {
         @Test
         func `convert RFC3339 To RFC5322`() throws {
             let time = try Gregorian.DateTime(year: 2024, month: 1, day: 15, hour: 12, minute: 30, second: 45)
-            let rfc3339 = RFC_3339.DateTime(time: time, offset: .utc)
+            let rfc3339 = IETF.RFC.`3339`.DateTime(time: time, offset: .utc)
 
-            let rfc5322 = RFC_5322.DateTime(rfc3339)
+            let rfc5322 = IETF.RFC.`5322`.DateTime(rfc3339)
 
             #expect(rfc5322.secondsSinceEpoch == time.secondsSinceEpoch)
             #expect(rfc5322.timezoneOffsetSeconds == 0)
@@ -155,21 +155,21 @@ extension `RFC3339Conversion Tests` {
                 microsecond: 999,
                 nanosecond: 999
             )
-            let rfc3339 = RFC_3339.DateTime(time: time, offset: .utc)
+            let rfc3339 = IETF.RFC.`3339`.DateTime(time: time, offset: .utc)
 
-            let rfc5322 = RFC_5322.DateTime(rfc3339)
+            let rfc5322 = IETF.RFC.`5322`.DateTime(rfc3339)
 
             #expect(rfc5322.secondsSinceEpoch == time.secondsSinceEpoch)
         }
 
         @Test
         func `convert RFC5322 To RFC3339`() throws {
-            let rfc5322 = RFC_5322.DateTime(
+            let rfc5322 = IETF.RFC.`5322`.DateTime(
                 secondsSinceEpoch: 1_705_324_245,
                 timezoneOffsetSeconds: 0
             )
 
-            let rfc3339 = RFC_3339.DateTime(rfc5322)
+            let rfc3339 = IETF.RFC.`3339`.DateTime(rfc5322)
 
             #expect(rfc3339.time.secondsSinceEpoch == 1_705_324_245)
             #expect(rfc3339.offset == .utc)
@@ -178,25 +178,25 @@ extension `RFC3339Conversion Tests` {
 
         @Test
         func `convert RFC5322 With Timezone To RFC3339`() throws {
-            let rfc5322 = RFC_5322.DateTime(
+            let rfc5322 = IETF.RFC.`5322`.DateTime(
                 secondsSinceEpoch: 1_705_324_245,
                 timezoneOffsetSeconds: -18000
             )
 
-            let rfc3339 = RFC_3339.DateTime(rfc5322)
+            let rfc3339 = IETF.RFC.`3339`.DateTime(rfc5322)
 
             #expect(rfc3339.offset.seconds == -18000)
         }
 
         @Test
         func `round Trip RFC5322 To RFC3339`() throws {
-            let original = RFC_5322.DateTime(
+            let original = IETF.RFC.`5322`.DateTime(
                 secondsSinceEpoch: 1_705_324_245,
                 timezoneOffsetSeconds: 3600
             )
 
-            let rfc3339 = RFC_3339.DateTime(original)
-            let restored = RFC_5322.DateTime(rfc3339)
+            let rfc3339 = IETF.RFC.`3339`.DateTime(original)
+            let restored = IETF.RFC.`5322`.DateTime(rfc3339)
 
             #expect(restored.secondsSinceEpoch == original.secondsSinceEpoch)
             #expect(restored.timezoneOffsetSeconds == original.timezoneOffsetSeconds)
@@ -205,10 +205,10 @@ extension `RFC3339Conversion Tests` {
         @Test
         func `three Way Conversion Preserves Instant`() throws {
             let time = try Gregorian.DateTime(year: 2024, month: 6, day: 15, hour: 14, minute: 30, second: 0)
-            let rfc3339 = RFC_3339.DateTime(time: time, offset: .utc)
+            let rfc3339 = IETF.RFC.`3339`.DateTime(time: time, offset: .utc)
 
             let iso8601 = try ISO.`8601`.DateTime(rfc3339)
-            let rfc5322 = RFC_5322.DateTime(iso8601)
+            let rfc5322 = IETF.RFC.`5322`.DateTime(iso8601)
 
             #expect(rfc5322.secondsSinceEpoch == time.secondsSinceEpoch)
         }
@@ -216,12 +216,12 @@ extension `RFC3339Conversion Tests` {
         @Test
         func `unknown Local Offset Handling`() throws {
             let time = try Gregorian.DateTime(year: 2024, month: 1, day: 15, hour: 12, minute: 0, second: 0)
-            let rfc3339 = RFC_3339.DateTime(time: time, offset: .unknownLocalOffset)
+            let rfc3339 = IETF.RFC.`3339`.DateTime(time: time, offset: .unknownLocalOffset)
 
             let iso8601 = try ISO.`8601`.DateTime(rfc3339)
             #expect(iso8601.offset.seconds == 0)
 
-            let rfc5322 = RFC_5322.DateTime(rfc3339)
+            let rfc5322 = IETF.RFC.`5322`.DateTime(rfc3339)
             #expect(rfc5322.timezoneOffsetSeconds == 0)
         }
     }

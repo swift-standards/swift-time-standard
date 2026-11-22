@@ -16,7 +16,7 @@ extension `TimeStandard Tests` {
 
         @Test
         func `convert RFC5322 To ISO8601`() throws {
-            let rfc = RFC_5322.DateTime(
+            let rfc = IETF.RFC.`5322`.DateTime(
                 secondsSinceEpoch: 1_705_324_245,
                 timezoneOffsetSeconds: 0
             )
@@ -30,7 +30,7 @@ extension `TimeStandard Tests` {
 
         @Test
         func `convert RFC5322 With Timezone To ISO8601`() throws {
-            let rfc = RFC_5322.DateTime(
+            let rfc = IETF.RFC.`5322`.DateTime(
                 secondsSinceEpoch: 1_705_324_245,
                 timezoneOffsetSeconds: 3600
             )
@@ -48,7 +48,7 @@ extension `TimeStandard Tests` {
                 offset: ISO.`8601`.Timezone.Offset(seconds: 0)
             )
 
-            let rfc = RFC_5322.DateTime(iso)
+            let rfc = IETF.RFC.`5322`.DateTime(iso)
 
             #expect(rfc.secondsSinceEpoch == 1_705_324_245)
             #expect(rfc.timezoneOffsetSeconds == 0)
@@ -62,7 +62,7 @@ extension `TimeStandard Tests` {
                 offset: ISO.`8601`.Timezone.Offset(seconds: -18000)
             )
 
-            let rfc = RFC_5322.DateTime(iso)
+            let rfc = IETF.RFC.`5322`.DateTime(iso)
 
             #expect(rfc.secondsSinceEpoch == 1_705_324_245)
             #expect(rfc.timezoneOffsetSeconds == -18000)
@@ -75,7 +75,7 @@ extension `TimeStandard Tests` {
                 offset: ISO.`8601`.Timezone.Offset(seconds: 3600)
             )
 
-            let rfc = RFC_5322.DateTime(original)
+            let rfc = IETF.RFC.`5322`.DateTime(original)
             let restored = try ISO.`8601`.DateTime(rfc)
 
             #expect(restored.instant == original.instant)
@@ -85,13 +85,13 @@ extension `TimeStandard Tests` {
 
         @Test
         func `round Trip RFC5322 To ISO8601 To RFC5322`() throws {
-            let original = RFC_5322.DateTime(
+            let original = IETF.RFC.`5322`.DateTime(
                 secondsSinceEpoch: 1_705_324_245,
                 timezoneOffsetSeconds: -18000
             )
 
             let iso = try ISO.`8601`.DateTime(original)
-            let restored = RFC_5322.DateTime(iso)
+            let restored = IETF.RFC.`5322`.DateTime(iso)
 
             #expect(restored.secondsSinceEpoch == original.secondsSinceEpoch)
             #expect(restored.timezoneOffsetSeconds == original.timezoneOffsetSeconds)
@@ -104,7 +104,7 @@ extension `TimeStandard Tests` {
                 offset: ISO.`8601`.Timezone.Offset(seconds: 0)
             )
 
-            let rfc = RFC_5322.DateTime(iso)
+            let rfc = IETF.RFC.`5322`.DateTime(iso)
 
             #expect(rfc.secondsSinceEpoch == 1_705_324_245)
 
@@ -124,7 +124,7 @@ extension `TimeStandard Tests` {
             ]
 
             for offset in offsets {
-                let rfc = RFC_5322.DateTime(
+                let rfc = IETF.RFC.`5322`.DateTime(
                     secondsSinceEpoch: 1_705_324_245,
                     timezoneOffsetSeconds: offset
                 )
@@ -132,7 +132,7 @@ extension `TimeStandard Tests` {
                 let iso = try ISO.`8601`.DateTime(rfc)
                 #expect(iso.offset.seconds == offset)
 
-                let rfcRestored = RFC_5322.DateTime(iso)
+                let rfcRestored = IETF.RFC.`5322`.DateTime(iso)
                 #expect(rfcRestored.timezoneOffsetSeconds == offset)
             }
         }
@@ -152,7 +152,7 @@ extension `TimeStandard Tests` {
                     offset: ISO.`8601`.Timezone.Offset(seconds: 0)
                 )
 
-                let rfc = RFC_5322.DateTime(iso)
+                let rfc = IETF.RFC.`5322`.DateTime(iso)
                 #expect(rfc.secondsSinceEpoch == epoch)
 
                 let isoRestored = try ISO.`8601`.DateTime(rfc)
@@ -162,7 +162,7 @@ extension `TimeStandard Tests` {
 
         @Test
         func `sub minute RFC5322 offset throws when converting to ISO8601`() {
-            let rfc = RFC_5322.DateTime(
+            let rfc = IETF.RFC.`5322`.DateTime(
                 secondsSinceEpoch: 1_705_324_245,
                 timezoneOffsetSeconds: 30
             )
